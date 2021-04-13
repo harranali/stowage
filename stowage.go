@@ -24,6 +24,7 @@ type Disk interface {
 	FileInfo(filepath string) (fileinfo localstorage.FileInfo, err error)
 	Put(filepath string) error
 	PutAs(filepath string, filename string) error
+	Copy(srcfile string, destfile string) error
 }
 
 type Stowage struct {

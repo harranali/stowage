@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 	"unicode/utf8"
 )
@@ -158,7 +159,69 @@ func (l *LocalStorage) PutAs(filepath string, filename string) error {
 		}
 	}
 	return err
+}
 
+// Copy helps you copy files within the root directory
+// Please note that the refrence of the paths of these files is the root dir
+// it accepts the source file starting from the root folder
+// and the destination file starting from the root folder
+// it returns an error incase there any
+func (l *LocalStorage) Copy(srcfile string, destfile string) error {
+	//unify slashes
+	srcfile = filepath.ToSlash(srcfile)
+	destfile = filepath.ToSlash(destfile)
+
+	// construct the full paths
+	srcFileFullPath := filepath.Join(l.rootFolder, srcfile)
+	DestFileFullPath := filepath.Join(l.rootFolder, destfile)
+
+	// make sure the path of dest exists
+	os.MkdirAll(filepath.Dir(DestFileFullPath), 0755)
+
+	// make sure the source file exists
+	s, err := os.Stat(srcFileFullPath)
+	if os.IsNotExist(err) {
+		return err
+	}
+	if !s.Mode().IsRegular() {
+		return errors.New("File is not in regular mode")
+	}
+
+	// make sure there is no file with the same name in destFile
+	_, err = os.Stat(DestFileFullPath)
+	if !os.IsNotExist(err) {
+		return errors.New("the file is already exists")
+	}
+
+	// open the source file
+	srcFile, err := os.Open(srcFileFullPath)
+	if err != nil {
+		return err
+	}
+	defer srcFile.Close()
+
+	// create a file in destination with the same name of source fil
+	destFile, err := os.Create(DestFileFullPath)
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	// copy the file content
+	buf := make([]byte, 100)
+	for {
+		n, err := srcFile.Read(buf)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		if n == 0 {
+			break
+		}
+		if _, err := destFile.Write(buf[:n]); err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func removeFirstChar(s string) string {
