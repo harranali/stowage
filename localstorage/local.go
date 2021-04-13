@@ -423,6 +423,24 @@ func (l *LocalStorage) MoveAs(srcfile string, destfolder string, newfilename str
 	return err
 }
 
+func (l *LocalStorage) Rename(filename string, newfilename string) error {
+	srcFileFullPath := filepath.Join(l.rootFolder, filename)
+	destFileFullPath := filepath.Join(l.rootFolder, newfilename)
+
+	// make sure the source file exists
+	s, err := os.Stat(srcFileFullPath)
+	if os.IsNotExist(err) {
+		return err
+	}
+	if !s.Mode().IsRegular() {
+		return errors.New("File is not in regular mode")
+	}
+
+	err = os.Rename(srcFileFullPath, destFileFullPath)
+
+	return err
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]

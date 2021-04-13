@@ -28,6 +28,7 @@ type Disk interface {
 	CopyAs(srcfile string, destfolder string, newfilename string) error
 	Move(srcfile string, destfile string) error
 	MoveAs(srcfile string, destfile string, newfilename string) error
+	Rename(filename string, newfilename string) error
 }
 
 type Stowage struct {
