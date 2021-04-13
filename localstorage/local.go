@@ -34,7 +34,7 @@ func New(path string) *Local {
 }
 
 // File returns information about the given file or an error when there is any
-func (l *Local) File(filepath string) (fileinfo FileInfo, err error) {
+func (l *Local) FileInfo(filepath string) (fileinfo FileInfo, err error) {
 	fullpath := path.Join(l.rootFolder, filepath)
 
 	info, err := os.Stat(fullpath)
