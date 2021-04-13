@@ -21,7 +21,8 @@ type OSSOpts struct {
 }
 
 type Disk interface {
-	FileInfo(path string) (localstorage.FileInfo, error)
+	FileInfo(filepath string) (fileinfo localstorage.FileInfo, err error)
+	Put(filepath string) error
 }
 
 type Stowage struct {

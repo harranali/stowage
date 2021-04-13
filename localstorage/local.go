@@ -1,6 +1,8 @@
 package localstorage
 
 import (
+	"errors"
+	"io"
 	"io/fs"
 	"os"
 	"path"
@@ -9,7 +11,7 @@ import (
 )
 
 // Local local storage
-type Local struct {
+type LocalStorage struct {
 	rootFolder string
 }
 
@@ -23,19 +25,24 @@ type FileInfo struct {
 	FsFileInfo           fs.FileInfo
 }
 
-var local *Local
+var local *LocalStorage
 
 // New initiate local storage
-func New(path string) *Local {
-	local = &Local{
+func New(path string) *LocalStorage {
+	local = &LocalStorage{
 		rootFolder: path,
 	}
 
 	return local
 }
 
-// File returns information about the given file or an error when there is any
-func (l *Local) FileInfo(filepath string) (fileinfo FileInfo, err error) {
+// FileInfo returns information about the given file or an error incase there is
+func (l *LocalStorage) FileInfo(filepath string) (fileinfo FileInfo, err error) {
+	// make sure the file exists
+	if _, err := os.Stat(filepath); os.IsNotExist(err) {
+		return FileInfo{}, err
+	}
+
 	fullpath := path.Join(l.rootFolder, filepath)
 
 	info, err := os.Stat(fullpath)
@@ -48,7 +55,57 @@ func (l *Local) FileInfo(filepath string) (fileinfo FileInfo, err error) {
 		FsFileInfo:           info,
 	}
 
-	return
+	return fileinfo, nil
+}
+
+// Put files in the root directory,
+// filepath is the full path to the file you would like to put
+// it returns error incase there was
+func (l *LocalStorage) Put(filepath string) error {
+	// make sure the source file exists
+	s, err := os.Stat(filepath)
+	if os.IsNotExist(err) {
+		return err
+	}
+	if !s.Mode().IsRegular() {
+		return errors.New("File is not in regular mode")
+	}
+
+	// make sure there is no file with the same name in destFile
+	_, err = os.Stat(path.Join(l.rootFolder, s.Name()))
+	if !os.IsNotExist(err) {
+		return errors.New("the file is already exists")
+	}
+
+	// open the source file
+	srcFile, err := os.Open(filepath)
+	if err != nil {
+		return err
+	}
+	defer srcFile.Close()
+
+	// create a file in destination with the same name of source fil
+	destFile, err := os.Create(path.Join(l.rootFolder, s.Name()))
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	// start copy
+	buf := make([]byte, 100)
+	for {
+		n, err := srcFile.Read(buf)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		if n == 0 {
+			break
+		}
+		if _, err := destFile.Write(buf[:n]); err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func removeFirstChar(s string) string {
