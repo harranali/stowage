@@ -23,6 +23,7 @@ type OSSOpts struct {
 type Disk interface {
 	FileInfo(filepath string) (fileinfo localstorage.FileInfo, err error)
 	Put(filepath string) error
+	PutAs(filepath string, filename string) error
 }
 
 type Stowage struct {

@@ -91,7 +91,7 @@ func (l *LocalStorage) Put(filepath string) error {
 	}
 	defer destFile.Close()
 
-	// start copy
+	// copy the file content
 	buf := make([]byte, 100)
 	for {
 		n, err := srcFile.Read(buf)
@@ -106,6 +106,59 @@ func (l *LocalStorage) Put(filepath string) error {
 		}
 	}
 	return err
+}
+
+// PutAs  puts files in the root directory with the given name
+// the first arg 'filepath' is the file path
+// the second arg 'filename' is the name of the new file
+// filepath is the full path to the file you would like to put
+// it returns error incase there was
+func (l *LocalStorage) PutAs(filepath string, filename string) error {
+	// make sure the source file exists
+	s, err := os.Stat(filepath)
+	if os.IsNotExist(err) {
+		return err
+	}
+	if !s.Mode().IsRegular() {
+		return errors.New("File is not in regular mode")
+	}
+
+	// make sure there is no file with the same name in destFile
+	_, err = os.Stat(path.Join(l.rootFolder, filename))
+	if !os.IsNotExist(err) {
+		return errors.New("the file is already exists")
+	}
+
+	// open the source file
+	srcFile, err := os.Open(filepath)
+	if err != nil {
+		return err
+	}
+	defer srcFile.Close()
+
+	// create a file in destination with the same name of source fil
+	destFile, err := os.Create(path.Join(l.rootFolder, filename))
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	// copy the file content
+	buf := make([]byte, 100)
+	for {
+		n, err := srcFile.Read(buf)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		if n == 0 {
+			break
+		}
+		if _, err := destFile.Write(buf[:n]); err != nil {
+			return err
+		}
+	}
+	return err
+
 }
 
 func removeFirstChar(s string) string {
