@@ -25,6 +25,7 @@ type Disk interface {
 	Put(filepath string) error
 	PutAs(filepath string, filename string) error
 	Copy(srcfile string, destfolder string) error
+	CopyAs(srcfile string, destfolder string, newfilename string) error
 	Move(srcfile string, destfile string) error
 }
 
