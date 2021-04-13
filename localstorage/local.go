@@ -4,6 +4,7 @@ import (
 	"io/fs"
 	"os"
 	"path"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -39,11 +40,12 @@ func (l *Local) FileInfo(filepath string) (fileinfo FileInfo, err error) {
 
 	info, err := os.Stat(fullpath)
 	fileinfo = FileInfo{
-		Name:       info.Name(),
-		Size:       info.Size(),
-		Extension:  removeFirstChar(path.Ext(fullpath)),
-		Path:       path.Dir(fullpath),
-		FsFileInfo: info,
+		Name:                 info.Name(),
+		Extension:            removeFirstChar(path.Ext(fullpath)),
+		NameWithoutExtension: removeExtension(info.Name(), path.Ext(fullpath)),
+		Size:                 info.Size(),
+		Path:                 path.Dir(fullpath),
+		FsFileInfo:           info,
 	}
 
 	return
@@ -52,4 +54,8 @@ func (l *Local) FileInfo(filepath string) (fileinfo FileInfo, err error) {
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]
+}
+
+func removeExtension(fileName string, ext string) string {
+	return strings.TrimSuffix(fileName, ext)
 }
