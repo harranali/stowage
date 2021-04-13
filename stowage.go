@@ -39,8 +39,8 @@ func New() *Stowage {
 	return stowage
 }
 
-// InitLocal initializes local storage
-func (s *Stowage) InitLocal(opts LocalStorageOpts) {
+// InitLocalStorage initializes local storage
+func (s *Stowage) InitLocalStorage(opts LocalStorageOpts) {
 	s.LocalStorage = localstorage.New(opts.RootFolder)
 }
 
