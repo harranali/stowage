@@ -423,6 +423,8 @@ func (l *LocalStorage) MoveAs(srcfile string, destfolder string, newfilename str
 	return err
 }
 
+// Rename renames a given file as first parameter to a new name passed as a second parameter
+// it returns error incase there is any
 func (l *LocalStorage) Rename(filename string, newfilename string) error {
 	srcFileFullPath := filepath.Join(l.rootFolder, filename)
 	destFileFullPath := filepath.Join(l.rootFolder, newfilename)
@@ -437,6 +439,46 @@ func (l *LocalStorage) Rename(filename string, newfilename string) error {
 	}
 
 	err = os.Rename(srcFileFullPath, destFileFullPath)
+
+	return err
+}
+
+// Delete removes the given file
+// it returns error incase there is any
+func (l *LocalStorage) Delete(filename string) error {
+	srcFileFullPath := filepath.Join(l.rootFolder, filename)
+
+	// make sure the source file exists
+	s, err := os.Stat(srcFileFullPath)
+	if os.IsNotExist(err) {
+		return err
+	}
+	if !s.Mode().IsRegular() {
+		return errors.New("File is not in regular mode")
+	}
+
+	err = os.Remove(srcFileFullPath)
+
+	return err
+}
+
+// Delete removes multiple files given as slice of strings of file paths
+// it returns error incase there is any
+func (l *LocalStorage) DeleteMultiple(filepaths []string) (err error) {
+	for _, file := range filepaths {
+		srcFileFullPath := filepath.Join(l.rootFolder, file)
+
+		// make sure the source file exists
+		s, err := os.Stat(srcFileFullPath)
+		if os.IsNotExist(err) {
+			continue
+		}
+		if !s.Mode().IsRegular() {
+			continue
+		}
+
+		err = os.Remove(srcFileFullPath)
+	}
 
 	return err
 }
