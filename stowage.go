@@ -32,6 +32,7 @@ type Disk interface {
 	Delete(filepath string) error
 	DeleteMultiple(filepaths []string) error
 	Create(filepath string, content []byte) error
+	Append(filepath string, content []byte) error
 }
 
 type Stowage struct {

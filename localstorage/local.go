@@ -510,6 +510,30 @@ func (l *LocalStorage) Create(filepath string, content []byte) error {
 	return err
 }
 
+// Append helps you append content to a file
+// it returns error incase there is any
+func (l *LocalStorage) Append(filepath string, content []byte) error {
+	fileFullPath := path.Join(l.rootFolder, filepath)
+
+	// check if the file exists
+	_, err := os.Stat(fileFullPath)
+	if os.IsNotExist(err) {
+		return err
+	}
+
+	// create the file
+	file, err := os.OpenFile(fileFullPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// add the content
+	_, err = file.Write(content)
+
+	return err
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]
