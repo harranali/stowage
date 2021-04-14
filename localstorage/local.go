@@ -549,6 +549,26 @@ func (l *LocalStorage) Exists(filepath string) (bool, error) {
 	return true, nil
 }
 
+// Missing checks if a file is missing in the root folder
+// it returns a bool and an error incase any
+func (l *LocalStorage) Missing(filepath string) (bool, error) {
+	fileFullPath := path.Join(l.rootFolder, filepath)
+
+	_, err := os.Stat(fileFullPath)
+	if err != nil {
+		// there is an error
+		if os.IsNotExist(err) {
+			// not exist error
+			return true, nil
+		} else {
+			// another errors
+			return false, err
+		}
+	}
+
+	return false, nil
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]
