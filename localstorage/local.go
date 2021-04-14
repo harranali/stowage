@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 	"io/fs"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -573,6 +574,25 @@ func (l *LocalStorage) Missing(filepath string) (bool, error) {
 	}
 
 	return false, nil
+}
+
+// Read helps you grap the content of a file
+// it returns the data in a slice of bytes and an error incase any
+func (l *LocalStorage) Read(filepath string) ([]byte, error) {
+	fileFullPath := path.Join(l.rootFolder, filepath)
+
+	_, err := os.Stat(fileFullPath)
+	if os.IsNotExist(err) {
+		// not exist error
+		return nil, err
+	}
+
+	content, err := ioutil.ReadFile(fileFullPath)
+	if err != nil {
+		return nil, err
+	}
+
+	return content, nil
 }
 
 func removeFirstChar(s string) string {

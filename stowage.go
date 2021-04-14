@@ -35,6 +35,7 @@ type Disk interface {
 	Append(filepath string, content []byte) error
 	Exists(filepath string) (bool, error)
 	Missing(filepath string) (bool, error)
+	Read(filepath string) ([]byte, error)
 }
 
 type Stowage struct {
