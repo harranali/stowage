@@ -483,6 +483,33 @@ func (l *LocalStorage) DeleteMultiple(filepaths []string) (err error) {
 	return err
 }
 
+// Create helps you create new file and add content to it
+// it returns error incase there is any
+func (l *LocalStorage) Create(filepath string, content []byte) error {
+	// make sure the path of dest folder exists
+	os.MkdirAll(path.Dir(filepath), 0755)
+
+	fileFullPath := path.Join(l.rootFolder, filepath)
+
+	// check if the file exists
+	_, err := os.Stat(fileFullPath)
+
+	if !os.IsNotExist(err) {
+		return errors.New("file already exists")
+	}
+	// create the file
+	file, err := os.Create(fileFullPath)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// add the content
+	_, err = file.Write(content)
+
+	return err
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]
