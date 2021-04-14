@@ -60,3 +60,16 @@ func TestPut(t *testing.T) {
 	}
 	os.Remove("testdata/root/filetobeput.md")
 }
+
+func TestPutAs(t *testing.T) {
+	root, _ := filepath.Abs("./testdata/root")
+	l := New(root)
+
+	l.PutAs("./testdata/filetobeput.md", "filetobeputnewname.md")
+
+	_, err := os.Stat("testdata/root/filetobeputnewname.md")
+	if os.IsNotExist(err) {
+		t.Error("failed assert putting file")
+	}
+	os.Remove("testdata/root/filetobeputnewname.md")
+}
