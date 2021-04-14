@@ -43,12 +43,13 @@ func New(path string) *LocalStorage {
 
 // FileInfo returns information about the given file or an error incase there is
 func (l *LocalStorage) FileInfo(filepath string) (fileinfo FileInfo, err error) {
+	fullpath := path.Join(l.rootFolder, filepath)
 	// make sure the file exists
-	if _, err := os.Stat(filepath); os.IsNotExist(err) {
+	if _, err := os.Stat(fullpath); os.IsNotExist(err) {
+		return FileInfo{}, errors.New("file does not exist")
+	} else if err != nil {
 		return FileInfo{}, err
 	}
-
-	fullpath := path.Join(l.rootFolder, filepath)
 
 	info, err := os.Stat(fullpath)
 
