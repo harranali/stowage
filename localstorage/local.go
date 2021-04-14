@@ -534,6 +534,21 @@ func (l *LocalStorage) Append(filepath string, content []byte) error {
 	return err
 }
 
+// Exists checks if a file exists withn the root folder
+// it returns a bool and an error incase any
+func (l *LocalStorage) Exists(filepath string) (bool, error) {
+	fileFullPath := path.Join(l.rootFolder, filepath)
+
+	_, err := os.Stat(fileFullPath)
+	if os.IsNotExist(err) {
+		return false, nil
+	} else if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]
