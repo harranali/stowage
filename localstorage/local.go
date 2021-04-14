@@ -8,6 +8,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 	"unicode/utf8"
 )
 
@@ -20,9 +21,11 @@ type LocalStorage struct {
 type FileInfo struct {
 	Name                 string
 	NameWithoutExtension string
+	LastModified         time.Time
 	Size                 int64
 	Extension            string
 	Path                 string
+	IsDirectory          bool
 	FsFileInfo           fs.FileInfo //golang's fs file info
 }
 
@@ -47,12 +50,15 @@ func (l *LocalStorage) FileInfo(filepath string) (fileinfo FileInfo, err error) 
 	fullpath := path.Join(l.rootFolder, filepath)
 
 	info, err := os.Stat(fullpath)
+
 	fileinfo = FileInfo{
 		Name:                 info.Name(),
 		Extension:            removeFirstChar(path.Ext(fullpath)),
 		NameWithoutExtension: removeExtension(info.Name(), path.Ext(fullpath)),
 		Size:                 info.Size(),
 		Path:                 path.Dir(fullpath),
+		LastModified:         info.ModTime(),
+		IsDirectory:          info.IsDir(),
 		FsFileInfo:           info,
 	}
 
