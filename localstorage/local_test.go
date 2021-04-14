@@ -2,6 +2,7 @@ package localstorage_test
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -45,4 +46,17 @@ func TestFileInfo(t *testing.T) {
 	if info.Size != 21 {
 		t.Error("failed asserting file info: Size")
 	}
+}
+
+func TestPut(t *testing.T) {
+	root, _ := filepath.Abs("./testdata/root")
+	l := New(root)
+
+	l.Put("./testdata/filetobeput.md")
+
+	_, err := os.Stat("testdata/root/filetobeput.md")
+	if os.IsNotExist(err) {
+		t.Error("failed assert putting file")
+	}
+	os.Remove("testdata/root/filetobeput.md")
 }
