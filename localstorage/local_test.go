@@ -355,3 +355,20 @@ func TestMissing(t *testing.T) {
 	}
 
 }
+
+func TestRead(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	content, err := l.Read("filetoread.mod")
+	if err != nil {
+		t.Error("failed assert reading file")
+	}
+
+	if string(content) != "contentToRead" {
+		t.Error("failed assert reading file")
+	}
+
+}
