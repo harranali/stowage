@@ -3,6 +3,7 @@ package localstorage_test
 import (
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 	"testing"
 
@@ -175,4 +176,54 @@ func TestMove(t *testing.T) {
 	err = l.Move("/sub1/sub2/filetomove.md", "/")
 	// delete the sub dirs
 	os.RemoveAll("/sub1")
+}
+
+func TestMoveAs(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	// 1- test moving to same dir with the same name
+	err := l.MoveAs("filetomove.md", "/", "filetomove.md")
+	if err == nil {
+		t.Error("failed asserting error when moving file to same dir with the same name")
+	}
+
+	// 2- test moving to same dir with different name
+	l.MoveAs("filetomove.md", "/", "filetomovenew.md")
+
+	// assert the source file
+	_, err = os.Stat(path.Join(root, "filetomove.md"))
+	if err == nil {
+		t.Error("failed assert moving to the same dir: source file still exist")
+	}
+
+	//assert the dest file
+	_, err = os.Stat(path.Join(root, "filetomovenew.md"))
+	if err != nil {
+		t.Error("failed assert moving to the same dir: new file not exist")
+	}
+
+	// rename file back to original name
+	l.MoveAs("filetomovenew.md", "/", "filetomove.md")
+
+	// 3- test moving to sub folder
+	l.MoveAs("filetomove.md", "/sub1/sub2", "filetomove.md")
+
+	// assert the source file
+	_, err = os.Stat(path.Join(root, "filetomove.md"))
+	if err == nil {
+		t.Error("failed assert moving to the same dir: source file still exist")
+	}
+	// assert the dest file
+	_, err = os.Stat(path.Join(root, "sub1/sub2/filetomove.md"))
+	if err != nil {
+		t.Error("failed assert moving to the same dir: dest file not exist")
+	}
+
+	// move the file back to original dir
+	l.MoveAs("sub1/sub2/filetomove.md", "/", "filetomove.md")
+	// remove the sub dirs
+	os.RemoveAll("sub1/sub2")
 }
