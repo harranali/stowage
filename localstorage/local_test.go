@@ -225,5 +225,21 @@ func TestMoveAs(t *testing.T) {
 	// move the file back to original dir
 	l.MoveAs("sub1/sub2/filetomove.md", "/", "filetomove.md")
 	// remove the sub dirs
-	os.RemoveAll("sub1/sub2")
+	os.RemoveAll(path.Join(root, "sub1"))
+}
+
+func TestRename(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	l.Rename("filetorename.md", "filetorename-newname.md")
+	_, err := os.Stat(path.Join(root, "filetorename-newname.md"))
+	if err != nil {
+		t.Error("failed assert renaming file")
+	}
+
+	// rename back the file file
+	l.Rename("filetorename-newname.md", "filetorename.md")
 }
