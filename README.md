@@ -4,7 +4,7 @@
 ![Test Status](https://github.com/harranali/stowage/actions/workflows/test-master.yml/badge.svg)
 
 ## What is stowage?
-A Go package for working with local filesystems
+A Go package for working with local filesystem
 
 ## Install
 To install stowage run the following command: 
@@ -15,19 +15,20 @@ go get github.com/harranali/stowage
 
 #### Initiate the package
 ```go
-// get the full path absolute path to the root dir
+// get the full absolute path to the root directory
 rootFolder, _ := filepath.Abs("./my-base-folder")
 
 // first create the package variable 
 s := stowage.New()
 
-// Initiate the storage
+// Initiate the storage with root directory
 s.InitLocalStorage(stowage.LocalStorageOpts{
     RootFolder: rootFolder,
 })
 ```
 
 #### File information 
+Here is how you can get information about afile such as name, extension, size, and more.
 ```go 
 rootFolder, _ := filepath.Abs("./my-base-folder")
 
