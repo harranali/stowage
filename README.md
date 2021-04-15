@@ -1,7 +1,7 @@
 # Stowage
 ## (under development)
-![Build Status](https://github.com/harranali/stowage/actions/workflows/build.yml/badge.svg)
-![Test Status](https://github.com/harranali/stowage/actions/workflows/test.yml/badge.svg)
+![Build Status](https://github.com/harranali/stowage/actions/workflows/build-master.yml/badge.svg)
+![Test Status](https://github.com/harranali/stowage/actions/workflows/test-master.yml/badge.svg)
 
 ## What is stowage?
 A Go package for working with local filesystems
