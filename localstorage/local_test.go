@@ -259,3 +259,24 @@ func TestDelete(t *testing.T) {
 	// create the file
 	l.Create("filetodelete.md", []byte("this is a test file"))
 }
+
+func TestDeleteMultiple(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+	l.DeleteMultiple([]string{"filetodelete1.md", "filetodelete2"})
+	_, err := os.Stat("filetodelete1.md")
+	if err == nil {
+		t.Error("failed asserting delete multiple")
+	}
+
+	_, err = os.Stat("filetodelete2.md")
+	if err == nil {
+		t.Error("failed asserting delete multiple")
+	}
+
+	// create the files
+	l.Create("filetodelete1.md", []byte("this is a test file"))
+	l.Create("filetodelete2.md", []byte("this is a test file"))
+}
