@@ -70,9 +70,9 @@ func (l *LocalStorage) FileInfo(filepath string) (fileinfo FileInfo, err error) 
 // Put files in the root directory from external locations,
 // filepath is the full path to the file you would like to put
 // it returns error incase there was
-func (l *LocalStorage) Put(filepath string) error {
+func (l *LocalStorage) Put(filePath string) error {
 	// make sure the source file exists
-	s, err := os.Stat(filepath)
+	s, err := os.Stat(filePath)
 	if os.IsNotExist(err) {
 		return err
 	}
@@ -87,7 +87,7 @@ func (l *LocalStorage) Put(filepath string) error {
 	}
 
 	// open the source file
-	srcFile, err := os.Open(filepath)
+	srcFile, err := os.Open(filePath)
 	if err != nil {
 		return err
 	}
@@ -122,9 +122,9 @@ func (l *LocalStorage) Put(filepath string) error {
 // the second arg 'filename' is the name of the new file
 // filepath is the full path to the file you would like to put
 // it returns error incase there was
-func (l *LocalStorage) PutAs(filepath string, filename string) error {
+func (l *LocalStorage) PutAs(filePath string, filename string) error {
 	// make sure the source file exists
-	s, err := os.Stat(filepath)
+	s, err := os.Stat(filePath)
 	if os.IsNotExist(err) {
 		return err
 	}
@@ -139,7 +139,7 @@ func (l *LocalStorage) PutAs(filepath string, filename string) error {
 	}
 
 	// open the source file
-	srcFile, err := os.Open(filepath)
+	srcFile, err := os.Open(filePath)
 	if err != nil {
 		return err
 	}
@@ -238,13 +238,13 @@ func (l *LocalStorage) Copy(filePath string, destPath string) error {
 // and the destination folder starting from the root folder
 // and the new file name
 // it returns an error incase there any
-func (l *LocalStorage) CopyAs(srcfile string, destfolder string, newfilename string) error {
+func (l *LocalStorage) CopyAs(filePath string, destfolder string, newFilePath string) error {
 	//unify slashes
-	srcfile = filepath.ToSlash(srcfile)
+	filePath = filepath.ToSlash(filePath)
 	destfolder = filepath.ToSlash(destfolder)
 
 	// construct the full paths
-	srcFileFullPath := filepath.Join(l.rootFolder, srcfile)
+	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
 	DestFileFullPath := filepath.Join(l.rootFolder, destfolder)
 
 	// make sure the path of dest folder exists
@@ -260,7 +260,7 @@ func (l *LocalStorage) CopyAs(srcfile string, destfolder string, newfilename str
 	}
 
 	// make sure there is no file with the same name in dest folder
-	_, err = os.Stat(path.Join(DestFileFullPath, newfilename))
+	_, err = os.Stat(path.Join(DestFileFullPath, newFilePath))
 	if err == nil {
 		return errors.New("the file is already exists")
 	}
@@ -273,7 +273,7 @@ func (l *LocalStorage) CopyAs(srcfile string, destfolder string, newfilename str
 	defer srcFile.Close()
 
 	// create a file in destination with the same name of source fil
-	destFile, err := os.Create(path.Join(DestFileFullPath, newfilename))
+	destFile, err := os.Create(path.Join(DestFileFullPath, newFilePath))
 	if err != nil {
 		return err
 	}
@@ -301,14 +301,14 @@ func (l *LocalStorage) CopyAs(srcfile string, destfolder string, newfilename str
 // it accepts the source file starting from the root folder
 // and the destination folder starting from the root folder
 // it returns an error incase there any
-func (l *LocalStorage) Move(srcfile string, destfolder string) error {
+func (l *LocalStorage) Move(filePath string, destFolder string) error {
 	//unify slashes
-	srcfile = filepath.ToSlash(srcfile)
-	destfolder = filepath.ToSlash(destfolder)
+	filePath = filepath.ToSlash(filePath)
+	destFolder = filepath.ToSlash(destFolder)
 
 	// construct the full paths
-	srcFileFullPath := filepath.Join(l.rootFolder, srcfile)
-	DestFileFullPath := filepath.Join(l.rootFolder, destfolder)
+	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
+	DestFileFullPath := filepath.Join(l.rootFolder, destFolder)
 
 	// make sure the path of dest folder exists
 	os.MkdirAll(DestFileFullPath, 0755)
@@ -369,14 +369,14 @@ func (l *LocalStorage) Move(srcfile string, destfolder string) error {
 // and the destination folder starting from the root folder
 // and the new file name
 // it returns an error incase there any
-func (l *LocalStorage) MoveAs(srcfile string, destfolder string, newfilename string) error {
+func (l *LocalStorage) MoveAs(filePath string, destFolder string, newFilePath string) error {
 	//unify slashes
-	srcfile = filepath.ToSlash(srcfile)
-	destfolder = filepath.ToSlash(destfolder)
+	filePath = filepath.ToSlash(filePath)
+	destFolder = filepath.ToSlash(destFolder)
 
 	// construct the full paths
-	srcFileFullPath := filepath.Join(l.rootFolder, srcfile)
-	DestFileFullPath := filepath.Join(l.rootFolder, destfolder)
+	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
+	DestFileFullPath := filepath.Join(l.rootFolder, destFolder)
 
 	// make sure the path of dest folder exists
 	os.MkdirAll(DestFileFullPath, 0755)
@@ -391,7 +391,7 @@ func (l *LocalStorage) MoveAs(srcfile string, destfolder string, newfilename str
 	}
 
 	// make sure there is no file with the same name in dest folder
-	_, err = os.Stat(path.Join(DestFileFullPath, newfilename))
+	_, err = os.Stat(path.Join(DestFileFullPath, newFilePath))
 	if !os.IsNotExist(err) {
 		return errors.New("the file is already exists")
 	}
@@ -404,7 +404,7 @@ func (l *LocalStorage) MoveAs(srcfile string, destfolder string, newfilename str
 	defer srcFile.Close()
 
 	// create a file in destination with the same name of source fil
-	destFile, err := os.Create(path.Join(DestFileFullPath, newfilename))
+	destFile, err := os.Create(path.Join(DestFileFullPath, newFilePath))
 	if err != nil {
 		return err
 	}
@@ -433,9 +433,9 @@ func (l *LocalStorage) MoveAs(srcfile string, destfolder string, newfilename str
 
 // Rename renames a given file as first parameter to a new name passed as a second parameter
 // it returns error incase there is any
-func (l *LocalStorage) Rename(filename string, newfilename string) error {
-	srcFileFullPath := filepath.Join(l.rootFolder, filename)
-	destFileFullPath := filepath.Join(l.rootFolder, newfilename)
+func (l *LocalStorage) Rename(filePath string, newFilePath string) error {
+	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
+	destFileFullPath := filepath.Join(l.rootFolder, newFilePath)
 
 	// make sure the source file exists
 	s, err := os.Stat(srcFileFullPath)
@@ -453,8 +453,8 @@ func (l *LocalStorage) Rename(filename string, newfilename string) error {
 
 // Delete removes the given file
 // it returns error incase there is any
-func (l *LocalStorage) Delete(filename string) error {
-	srcFileFullPath := filepath.Join(l.rootFolder, filename)
+func (l *LocalStorage) Delete(filePath string) error {
+	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
 
 	// make sure the source file exists
 	s, err := os.Stat(srcFileFullPath)
@@ -472,8 +472,8 @@ func (l *LocalStorage) Delete(filename string) error {
 
 // Delete removes multiple files given as slice of strings of file paths
 // it returns error incase there is any
-func (l *LocalStorage) DeleteMultiple(filepaths []string) (err error) {
-	for _, file := range filepaths {
+func (l *LocalStorage) DeleteMultiple(filePaths []string) (err error) {
+	for _, file := range filePaths {
 		srcFileFullPath := filepath.Join(l.rootFolder, file)
 
 		// make sure the source file exists
@@ -520,8 +520,8 @@ func (l *LocalStorage) Create(filePath string, content []byte) error {
 
 // Append helps you append content to a file
 // it returns error incase there is any
-func (l *LocalStorage) Append(filepath string, content []byte) error {
-	fileFullPath := path.Join(l.rootFolder, filepath)
+func (l *LocalStorage) Append(filePath string, content []byte) error {
+	fileFullPath := path.Join(l.rootFolder, filePath)
 
 	// check if the file exists
 	_, err := os.Stat(fileFullPath)
@@ -544,8 +544,8 @@ func (l *LocalStorage) Append(filepath string, content []byte) error {
 
 // Exists checks if a file exists withn the root folder
 // it returns a bool and an error incase any
-func (l *LocalStorage) Exists(filepath string) (bool, error) {
-	fileFullPath := path.Join(l.rootFolder, filepath)
+func (l *LocalStorage) Exists(filePath string) (bool, error) {
+	fileFullPath := path.Join(l.rootFolder, filePath)
 
 	_, err := os.Stat(fileFullPath)
 	if os.IsNotExist(err) {
@@ -559,8 +559,8 @@ func (l *LocalStorage) Exists(filepath string) (bool, error) {
 
 // Missing checks if a file is missing in the root folder
 // it returns a bool and an error incase any
-func (l *LocalStorage) Missing(filepath string) (bool, error) {
-	fileFullPath := path.Join(l.rootFolder, filepath)
+func (l *LocalStorage) Missing(filePath string) (bool, error) {
+	fileFullPath := path.Join(l.rootFolder, filePath)
 
 	_, err := os.Stat(fileFullPath)
 	if err != nil {
@@ -579,8 +579,8 @@ func (l *LocalStorage) Missing(filepath string) (bool, error) {
 
 // Read helps you grap the content of a file
 // it returns the data in a slice of bytes and an error incase any
-func (l *LocalStorage) Read(filepath string) ([]byte, error) {
-	fileFullPath := path.Join(l.rootFolder, filepath)
+func (l *LocalStorage) Read(filePath string) ([]byte, error) {
+	fileFullPath := path.Join(l.rootFolder, filePath)
 
 	_, err := os.Stat(fileFullPath)
 	if os.IsNotExist(err) {

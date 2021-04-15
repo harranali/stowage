@@ -21,21 +21,21 @@ type OSSOpts struct {
 }
 
 type Disk interface {
-	FileInfo(filepath string) (fileinfo localstorage.FileInfo, err error)
-	Put(filepath string) error
-	PutAs(filepath string, filename string) error
-	Copy(srcfile string, destfolder string) error
-	CopyAs(srcfile string, destfolder string, newfilename string) error
-	Move(srcfile string, destfile string) error
-	MoveAs(srcfile string, destfile string, newfilename string) error
-	Rename(filename string, newfilename string) error
-	Delete(filepath string) error
-	DeleteMultiple(filepaths []string) error
-	Create(filepath string, content []byte) error
-	Append(filepath string, content []byte) error
-	Exists(filepath string) (bool, error)
-	Missing(filepath string) (bool, error)
-	Read(filepath string) ([]byte, error)
+	FileInfo(filePath string) (fileinfo localstorage.FileInfo, err error)
+	Put(filePath string) error
+	PutAs(filePath string, filename string) error
+	Copy(filePath string, destfolder string) error
+	CopyAs(filePath string, destfolder string, newFilePath string) error
+	Move(filePath string, destfolder string) error
+	MoveAs(filePath string, destFolder string, newFilePath string) error
+	Rename(filePath string, newFilePath string) error
+	Delete(filePath string) error
+	DeleteMultiple(filePaths []string) error
+	Create(filePath string, content []byte) error
+	Append(filePath string, content []byte) error
+	Exists(filePath string) (bool, error)
+	Missing(filePath string) (bool, error)
+	Read(filePath string) ([]byte, error)
 }
 
 type Stowage struct {
