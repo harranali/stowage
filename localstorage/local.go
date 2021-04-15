@@ -82,7 +82,7 @@ func (l *LocalStorage) Put(filepath string) error {
 
 	// make sure there is no file with the same name in destFile
 	_, err = os.Stat(path.Join(l.rootFolder, s.Name()))
-	if !os.IsNotExist(err) {
+	if err == nil {
 		return errors.New("the file is already exists")
 	}
 
@@ -134,7 +134,7 @@ func (l *LocalStorage) PutAs(filepath string, filename string) error {
 
 	// make sure there is no file with the same name in destFile
 	_, err = os.Stat(path.Join(l.rootFolder, filename))
-	if !os.IsNotExist(err) {
+	if err == nil {
 		return errors.New("the file is already exists")
 	}
 
@@ -261,7 +261,7 @@ func (l *LocalStorage) CopyAs(srcfile string, destfolder string, newfilename str
 
 	// make sure there is no file with the same name in dest folder
 	_, err = os.Stat(path.Join(DestFileFullPath, newfilename))
-	if !os.IsNotExist(err) {
+	if err == nil {
 		return errors.New("the file is already exists")
 	}
 
@@ -324,7 +324,7 @@ func (l *LocalStorage) Move(srcfile string, destfolder string) error {
 
 	// make sure there is no file with the same name in dest folder
 	_, err = os.Stat(path.Join(DestFileFullPath, s.Name()))
-	if !os.IsNotExist(err) {
+	if err == nil {
 		return errors.New("the file is already exists")
 	}
 
@@ -493,27 +493,27 @@ func (l *LocalStorage) DeleteMultiple(filepaths []string) (err error) {
 
 // Create helps you create new file and add content to it
 // it returns error incase there is any
-func (l *LocalStorage) Create(filepath string, content []byte) error {
+func (l *LocalStorage) Create(filePath string, content []byte) error {
 	// make sure the path of dest folder exists
-	os.MkdirAll(path.Dir(filepath), 0755)
+	os.MkdirAll(path.Dir(filePath), 0755)
 
-	fileFullPath := path.Join(l.rootFolder, filepath)
+	fileFullPath := path.Join(l.rootFolder, filePath)
+	fileFullPath = filepath.ToSlash(fileFullPath)
 
 	// check if the file exists
 	_, err := os.Stat(fileFullPath)
-
-	if !os.IsNotExist(err) {
+	if err == nil {
 		return errors.New("file already exists")
 	}
+
 	// create the file
 	file, err := os.Create(fileFullPath)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
-
 	// add the content
 	_, err = file.Write(content)
+	file.Close()
 
 	return err
 }

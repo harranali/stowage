@@ -277,6 +277,30 @@ func TestDeleteMultiple(t *testing.T) {
 	}
 
 	// create the files
-	l.Create("filetodelete1.md", []byte("this is a test file"))
-	l.Create("filetodelete2.md", []byte("this is a test file"))
+	file, _ := os.Create(path.Join(root, "filetodelete1.md"))
+	defer file.Close()
+	file.Write([]byte("this is a test file"))
+
+	file, _ = os.Create(path.Join(root, "filetodelete2.md"))
+	defer file.Close()
+	file.Write([]byte("this is a test file"))
+}
+
+func TestCreate(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	err := l.Create("filetocreate.md", []byte("this is a test file"))
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = os.Stat(path.Join(root, "filetocreate.md"))
+	if err != nil {
+		t.Error("failed assert file create: ", err)
+	}
+
+	os.Remove(path.Join(root, "filetocreate.md"))
 }
