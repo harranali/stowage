@@ -329,3 +329,16 @@ func TestAppend(t *testing.T) {
 	file.Write([]byte("this is a test file\n"))
 	file.Close()
 }
+
+func TestExists(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	yes, _ := l.Exists("filetocheckexist.md")
+	if !yes {
+		t.Error("failed assert exist")
+	}
+
+}
