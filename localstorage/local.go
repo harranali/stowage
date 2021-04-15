@@ -174,17 +174,17 @@ func (l *LocalStorage) PutAs(filepath string, filename string) error {
 // it accepts the source file starting from the root folder
 // and the destination folder starting from the root folder
 // it returns an error incase there any
-func (l *LocalStorage) Copy(srcfile string, destfolder string) error {
+func (l *LocalStorage) Copy(filePath string, destPath string) error {
 	//unify slashes
-	srcfile = filepath.ToSlash(srcfile)
-	destfolder = filepath.ToSlash(destfolder)
+	filePath = filepath.ToSlash(filePath)
+	destPath = filepath.ToSlash(destPath)
 
 	// construct the full paths
-	srcFileFullPath := filepath.Join(l.rootFolder, srcfile)
-	DestFileFullPath := filepath.Join(l.rootFolder, destfolder)
+	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
+	DestFullPath := filepath.Join(l.rootFolder, destPath)
 
 	// make sure the path of dest folder exists
-	os.MkdirAll(DestFileFullPath, 0755)
+	os.MkdirAll(DestFullPath, 0755)
 
 	// make sure the source file exists
 	s, err := os.Stat(srcFileFullPath)
@@ -196,9 +196,9 @@ func (l *LocalStorage) Copy(srcfile string, destfolder string) error {
 	}
 
 	// make sure there is no file with the same name in dest folder
-	_, err = os.Stat(path.Join(DestFileFullPath, s.Name()))
-	if !os.IsNotExist(err) {
-		return errors.New("the file is already exists")
+	_, err = os.Stat(path.Join(DestFullPath, s.Name()))
+	if err == nil {
+		return errors.New("the file already exists in dest folder")
 	}
 
 	// open the source file
@@ -209,7 +209,7 @@ func (l *LocalStorage) Copy(srcfile string, destfolder string) error {
 	defer srcFile.Close()
 
 	// create a file in destination with the same name of source fil
-	destFile, err := os.Create(path.Join(DestFileFullPath, s.Name()))
+	destFile, err := os.Create(path.Join(DestFullPath, s.Name()))
 	if err != nil {
 		return err
 	}
