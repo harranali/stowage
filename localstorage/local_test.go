@@ -342,3 +342,16 @@ func TestExists(t *testing.T) {
 	}
 
 }
+
+func TestMissing(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	yes, _ := l.Missing("missingfile.md")
+	if !yes {
+		t.Error("failed assert missing")
+	}
+
+}
