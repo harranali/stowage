@@ -2,9 +2,11 @@ package localstorage_test
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	. "github.com/harranali/stowage/localstorage"
@@ -303,4 +305,27 @@ func TestCreate(t *testing.T) {
 	}
 
 	os.Remove(path.Join(root, "filetocreate.md"))
+}
+
+func TestAppend(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+	l.Append("filetoappend.md", []byte("appended"))
+
+	fileContent, err := ioutil.ReadFile(path.Join(root, "filetoappend.md"))
+	if err != nil {
+		t.Error("failed asserting append: ", err)
+	}
+	yes := strings.Contains(string(fileContent), "appended")
+	if !yes {
+		t.Error("failed assert append")
+	}
+
+	// fix the files
+	os.Remove(path.Join(root, "filetoappend.md"))
+	file, _ := os.Create(path.Join(root, "filetoappend.md"))
+	file.Write([]byte("this is a test file\n"))
+	file.Close()
 }
