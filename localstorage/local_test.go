@@ -243,3 +243,19 @@ func TestRename(t *testing.T) {
 	// rename back the file file
 	l.Rename("filetorename-newname.md", "filetorename.md")
 }
+
+func TestDelete(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	l.Delete("filetodelete.md")
+	_, err := os.Stat("filetodelete.md")
+	if err == nil {
+		t.Error("failed asserting file delete")
+	}
+
+	// create the file
+	l.Create("filetodelete.md", []byte("this is a test file"))
+}
