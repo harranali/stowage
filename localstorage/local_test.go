@@ -137,3 +137,42 @@ func TestCopyAs(t *testing.T) {
 	// cleanup
 	os.RemoveAll("testdata/root/sub1")
 }
+
+func TestMove(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+
+	// Move(srcfile string, destfolder string) error
+
+	// test moving to same
+	err := l.Move("filetomove.md", "/")
+	// assert
+	if err == nil {
+		t.Error("failed asserting error when moving file to same dir")
+	}
+
+	// test move file to sub dir
+	err = l.Move("filetomove.md", "/sub1/sub2")
+	// assert
+	if err != nil {
+		t.Error("failed asserting moving file to sub dir. ", err)
+	}
+	// assert soure file not there
+	_, err = os.Stat("testdata/root/filetomove.md")
+	if err == nil {
+		t.Error("source file still present after moving. ")
+	}
+
+	// assert file exist in new dest
+	_, err = os.Stat("testdata/root/sub1/sub2/filetomove.md")
+	if os.IsNotExist(err) {
+		t.Error("source file still present after moving. ")
+	}
+
+	// move the file back
+	err = l.Move("/sub1/sub2/filetomove.md", "/")
+	// delete the sub dirs
+	os.RemoveAll("/sub1")
+}
