@@ -698,7 +698,7 @@ func (l *LocalStorage) AllDirectories(DirectoryPath string) (directoryPaths []st
 		if err != nil {
 			return err
 		}
-		if info.IsDir() {
+		if info.IsDir() && filePath != DirectoryFullPath {
 			filePath = filepath.ToSlash(filePath)
 			directoryPaths = append(directoryPaths, filePath)
 		}
