@@ -478,3 +478,22 @@ func TestRenameDirectory(t *testing.T) {
 	os.RemoveAll(dirPath)
 	l.MakeDirectory("dirtorename", 0777)
 }
+
+func TestDeleteDirectory(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+	err := l.DeleteDirectory("dirtodelete")
+	if err != nil {
+		t.Error("failed asserting delete directory")
+	}
+
+	dirPath := path.Join(root, "dirtodelete")
+	s, err := os.Stat(dirPath)
+	if s != nil {
+		t.Error("failed asserting delete directory")
+	}
+
+	l.MakeDirectory("dirtodelete", 0777)
+}
