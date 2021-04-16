@@ -399,10 +399,25 @@ func TestAllFiles(t *testing.T) {
 	l := New(root)
 	files, err := l.AllFiles("files")
 	if err != nil {
-		t.Error("failed asserting list files")
+		t.Error("failed asserting list all files")
 	}
 	count := len(files)
 	if count != 3 {
-		t.Error("failed asserting list files")
+		t.Error("failed asserting list all files")
+	}
+}
+
+func TestDirectories(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+	files, err := l.Directories("dirs")
+	if err != nil {
+		t.Error("failed asserting list dirs")
+	}
+	count := len(files)
+	if count != 2 {
+		t.Error("failed asserting list dirs")
 	}
 }
