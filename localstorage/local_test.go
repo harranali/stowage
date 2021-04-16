@@ -471,7 +471,7 @@ func TestRenameDirectory(t *testing.T) {
 	dirPath := path.Join(root, "dirtorenamenew")
 	s, err := os.Stat(dirPath)
 
-	if !s.IsDir() {
+	if s != nil && !s.IsDir() {
 		t.Error("failed asserting rename directory")
 	}
 
