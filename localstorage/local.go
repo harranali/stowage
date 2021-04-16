@@ -657,6 +657,30 @@ func (l *LocalStorage) AllFiles(DirectoryPath string) (files []FileInfo, err err
 	return files, err
 }
 
+// Directories returns a slice of string containing the paths of the directories
+// it returns an error incase any
+func (l *LocalStorage) Directories(DirectoryPath string) (directoryPaths []string, err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+
+	_, err = os.Stat(DirectoryFullPath)
+	if os.IsNotExist(err) {
+		// not exist error
+		return []string{}, err
+	}
+
+	res, err := ioutil.ReadDir(DirectoryFullPath)
+	for _, val := range res {
+		if val.IsDir() {
+			// assign the result var
+			p := path.Join(l.rootFolder, DirectoryPath, val.Name())
+			p = filepath.ToSlash(p)
+			directoryPaths = append(directoryPaths, p)
+		}
+	}
+
+	return directoryPaths, err
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]
