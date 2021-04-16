@@ -437,3 +437,44 @@ func TestAllDirectories(t *testing.T) {
 		t.Error("failed asserting list dirs")
 	}
 }
+
+func TestMakeDirectory(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+	err := l.MakeDirectory("dirToMake", 0777)
+	if err != nil {
+		t.Error("failed asserting make directory")
+	}
+
+	dirPath := path.Join(root, "dirToMake")
+	s, err := os.Stat(dirPath)
+
+	if !s.IsDir() {
+		t.Error("failed asserting make directory")
+	}
+
+	os.RemoveAll(dirPath)
+}
+
+func TestRenameDirectory(t *testing.T) {
+	//create full path to the root folder
+	root, _ := filepath.Abs("./testdata/root")
+	// initiate the loal storage
+	l := New(root)
+	err := l.RenameDirectory("dirtorename", "dirtorenamenew")
+	if err != nil {
+		t.Error("failed asserting rename directory")
+	}
+
+	dirPath := path.Join(root, "dirtorenamenew")
+	s, err := os.Stat(dirPath)
+
+	if !s.IsDir() {
+		t.Error("failed asserting rename directory")
+	}
+
+	os.RemoveAll(dirPath)
+	l.MakeDirectory("dirtorename", 0777)
+}
