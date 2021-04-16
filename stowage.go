@@ -12,15 +12,15 @@ type LocalStorageOpts struct {
 	RootFolder string
 }
 
-type S3Opts struct {
+type s3Opts struct {
 	token string
 }
 
-type GoogleCloudStorageOpts struct {
+type googleCloudStorageOpts struct {
 	token string
 }
 
-type OSSOpts struct {
+type oSSOpts struct {
 	Token string
 }
 
@@ -44,9 +44,9 @@ type Disk interface {
 
 type Stowage struct {
 	LocalStorage       Disk
-	S3                 Disk
-	GoogleCloudStorage Disk
-	OSS                Disk
+	s3                 Disk
+	googleCloudStorage Disk
+	oSS                Disk
 }
 
 var stowage *Stowage
@@ -63,13 +63,13 @@ func (s *Stowage) InitLocalStorage(opts LocalStorageOpts) {
 }
 
 // InitS3 initializes Amazon S3 storage
-func (s *Stowage) InitS3(opts S3Opts) {
+func (s *Stowage) InitS3(opts s3Opts) {
 }
 
 // InitGoogleCloudStorage initializes google cloud storage
-func (s *Stowage) InitGoogleCloudStorage(opts GoogleCloudStorageOpts) {
+func (s *Stowage) initGoogleCloudStorage(opts googleCloudStorageOpts) {
 }
 
 // InitOSS initializes Alicloud OSS
-func (s *Stowage) InitOSS(opts OSSOpts) {
+func (s *Stowage) initOSS(opts oSSOpts) {
 }
