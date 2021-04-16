@@ -658,6 +658,8 @@ func (l *LocalStorage) AllFiles(DirectoryPath string) (files []FileInfo, err err
 }
 
 // Directories returns a slice of string containing the paths of the directories
+// if you want the list of directories including subdirectories
+// consider using the method "AllDirectories(DirectoryPath string)"
 // it returns an error incase any
 func (l *LocalStorage) Directories(DirectoryPath string) (directoryPaths []string, err error) {
 	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
@@ -676,6 +678,34 @@ func (l *LocalStorage) Directories(DirectoryPath string) (directoryPaths []strin
 			p = filepath.ToSlash(p)
 			directoryPaths = append(directoryPaths, p)
 		}
+	}
+
+	return directoryPaths, err
+}
+
+// AllDirectories returns a list of directories including sub directories
+// it returns an error incase any
+func (l *LocalStorage) AllDirectories(DirectoryPath string) (directoryPaths []string, err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+
+	_, err = os.Stat(DirectoryFullPath)
+	if os.IsNotExist(err) {
+		// not exist error
+		return []string{}, err
+	}
+
+	err = filepath.Walk(DirectoryFullPath, func(filePath string, info fs.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			filePath = filepath.ToSlash(filePath)
+			directoryPaths = append(directoryPaths, filePath)
+		}
+		return nil
+	})
+	if err != nil {
+		return []string{}, err
 	}
 
 	return directoryPaths, err

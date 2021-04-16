@@ -43,6 +43,7 @@ type Disk interface {
 	Files(DirectoryPath string) ([]localstorage.FileInfo, error)
 	AllFiles(DirectoryPath string) ([]localstorage.FileInfo, error)
 	Directories(DirectoryPath string) (directoryPaths []string, err error)
+	AllDirectories(DirectoryPath string) (directoryPaths []string, err error)
 }
 
 type Stowage struct {
