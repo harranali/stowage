@@ -600,6 +600,32 @@ func (l *LocalStorage) Read(filePath string) ([]byte, error) {
 	return content, nil
 }
 
+// Files returns a list of files in a given directory, the file type is LocalStorage.FileInfo
+// and it returns an error incase any occured
+// if you want a list of files including the files in sub directories
+// consider using the method "AllFiles(DirectoryPath string)"
+func (l *LocalStorage) Files(DirectoryPath string) (files []FileInfo, err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+
+	_, err = os.Stat(DirectoryFullPath)
+	if os.IsNotExist(err) {
+		// not exist error
+		return []FileInfo{}, err
+	}
+
+	res, err := ioutil.ReadDir(DirectoryFullPath)
+	for _, val := range res {
+		if !val.IsDir() {
+			// assign the result var
+			p := path.Join(DirectoryPath, val.Name())
+			f, _ := l.FileInfo(p)
+			files = append(files, f)
+		}
+	}
+
+	return files, err
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]

@@ -40,6 +40,7 @@ type Disk interface {
 	Exists(filePath string) (bool, error)
 	Missing(filePath string) (bool, error)
 	Read(filePath string) ([]byte, error)
+	Files(DirectoryPath string) ([]localstorage.FileInfo, error)
 }
 
 type Stowage struct {
