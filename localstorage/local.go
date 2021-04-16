@@ -711,6 +711,34 @@ func (l *LocalStorage) AllDirectories(DirectoryPath string) (directoryPaths []st
 	return directoryPaths, err
 }
 
+// MakeDirectory creates a new directory and the necessary parent directories
+// with the given permissions, permission could be (example: 0777) or any linux based permission
+// it returns an error incase any
+func (l *LocalStorage) MakeDirectory(DirectoryPath string, perm int) (err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+	err = os.MkdirAll(DirectoryFullPath, fs.FileMode(perm))
+	return err
+}
+
+// RenameDirectory changes the name of directory to new name
+// please note that it doesn't work for none empty directories
+// it returns an error incase any
+func (l *LocalStorage) RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+	NewDirectoryFullPath := path.Join(l.rootFolder, NewDirectoryPath)
+	err = os.Rename(DirectoryFullPath, NewDirectoryFullPath)
+
+	return err
+}
+
+// DeleteDirectory deletes the given directory
+func (l *LocalStorage) DeleteDirectory(DirectoryPath string) (err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+	err = os.RemoveAll(DirectoryFullPath)
+
+	return err
+}
+
 func removeFirstChar(s string) string {
 	_, i := utf8.DecodeRuneInString(s)
 	return s[i:]

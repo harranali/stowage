@@ -44,6 +44,9 @@ type Disk interface {
 	AllFiles(DirectoryPath string) ([]localstorage.FileInfo, error)
 	Directories(DirectoryPath string) (directoryPaths []string, err error)
 	AllDirectories(DirectoryPath string) (directoryPaths []string, err error)
+	MakeDirectory(DirectoryPath string, perm int) error
+	RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error)
+	DeleteDirectory(DirectoryPath string) (err error)
 }
 
 type Stowage struct {
