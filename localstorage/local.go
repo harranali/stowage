@@ -236,7 +236,7 @@ func (l *LocalStorage) Copy(filePath string, destPath string) error {
 	return err
 }
 
-// Copy helps you copy files within the root folder
+// CopyAs helps you copy files within the root folder
 // Please note that the refrence of the paths of these files is the root folder
 // it accepts the source file starting from the root folder
 // and the destination folder starting from the root folder
@@ -367,7 +367,7 @@ func (l *LocalStorage) Move(filePath string, destFolder string) error {
 	return err
 }
 
-// Move helps you Move files within the root folder
+// MoveAs helps you Move files within the root folder
 // Please note that the refrence of the paths of these files is the root folder
 // it accepts the source file starting from the root folder
 // and the destination folder starting from the root folder
@@ -474,7 +474,7 @@ func (l *LocalStorage) Delete(filePath string) error {
 	return err
 }
 
-// Delete removes multiple files given as slice of strings of file paths
+// DeleteMultiple removes multiple files given as slice of strings of file paths
 // it returns error incase there is any
 func (l *LocalStorage) DeleteMultiple(filePaths []string) (err error) {
 	for _, file := range filePaths {

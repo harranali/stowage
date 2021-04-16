@@ -127,3 +127,120 @@ MakeDirectory(DirectoryPath string, perm int) error
 RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error)
 DeleteDirectory(DirectoryPath string) (err error)
 ```
+
+#### docs
+Here are the details of each operation
+
+##### FileInfo(filePath string) (fileinfo localstorage.FileInfo, err error)
+`FileInfo` returns information about the given file or an error incase there is
+```go
+info, _ := s.LocalStorage.FileInfo("testfile.txt")
+info.Name // the file name with extension
+info.NameWithoutExtension // the file name without extension
+info.Extension // the file extension
+info.Size // the file size 
+info.Path // the file full path
+```
+
+#### Put(filePath string) error
+`Put` helps you copy files into the root directory from external locations, filepath is the full path to the file you would like to put, it returns error incase there any
+```go
+err := s.LocalStorage.Put("testfile.txt")
+```
+
+####  PutAs(filePath string, filename string) error
+`PutAs` helps you copy files into the root directory from external directory with the given name in the second parameter, the first param 'filePath' is the file path, the second param 'fileName' is the name of the new file, filepath is the full path to the file you would like to put, it returns error incase there was
+```go
+err := s.LocalStorage.PutAs("testfile.txt", "newtestfile.txt")
+```
+
+#### Copy(filePath string, destPath string) error
+`Copy` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there any
+```go
+err := s.LocalStorage.Copy("testfile.txt", "/folder/subfolder")
+```
+
+#### CopyAs(filePath string, destfolder string, newFilePath string) error
+`CopyAs` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there any
+```go
+err := s.LocalStorage.CopyAs("testfile.txt", "/folder/subfolder", "newtestfile.txt")
+```
+
+####  Move(filePath string, destFolder string) error
+`Move` helps you Move files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there any
+```go
+err := s.LocalStorage.Move("testfile.txt", "/folder/subfolder")
+```
+
+####  MoveAs(filePath string, destFolder string, newFilePath string) error
+`MoveAs` helps you Move files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name
+// it returns an error incase there any
+```go
+err := s.LocalStorage.Move("testfile.txt", "/folder/subfolder", "newtestfile.txt")
+```
+
+#### Rename(filePath string, newFilePath string) error
+`Rename` renames a given file as first parameter to a new name passed as a second parameter, it returns error incase there is any
+```go
+err := s.LocalStorage.Rename("testfile.txt",  "newtestfile.txt")
+```
+
+#### Delete(filePath string) error
+`Delete` deletes the given file it returns error incase there is any
+```go
+err := s.LocalStorage.Delete("testfile.txt")
+```
+
+#### DeleteMultiple(filePaths []string) (err error)
+`DeleteMultiple` deltes multiple files given as slice of strings of file paths, it returns error incase there is any
+```go
+files := []string{"testfile1.txt", "testfile1.txt"}
+err := s.LocalStorage.DeleteMultiple(files)
+```
+
+#### Create(filePath string, content []byte) error
+`Create` helps you create new file and add content to it, it returns error incase there is any
+```go
+err := s.LocalStorage.Create("newfile.txt",[]byte("this is a sample text") )
+```
+
+#### Append(filePath string, content []byte) error
+`Append` helps you append content to a file, it returns error incase there is any
+```go
+err := s.LocalStorage.Append("newfile.txt",[]byte("this is a sample text") )
+```
+
+#### Exists(filePath string) (bool, error)
+`Exists` checks if a file exists withn the root folder, it returns a bool and an error incase any
+```go
+exists, err := s.LocalStorage.Exists("newfile.txt")
+```
+
+#### Missing(filePath string) (bool, error)
+`Missing` checks if a file is missing in the root folder, it returns a bool and an error incase any
+```go
+missing, err := s.LocalStorage.Missing("newfile.txt")
+```
+#### Read(filePath string) ([]byte, error)
+`Read` helps you grap the content of a file, it returns the data in a slice of bytes and an error incase any
+```go
+content, err := s.LocalStorage.Read("newfile.txt")
+```
+
+#### Files(DirectoryPath string) (files []FileInfo, err error)
+`Files` returns a list of files in a given directory, the file type is LocalStorage.FileInfo  NOT fs.LocalStorage, and it returns an error incase any occured, if you want a list of files including the files in sub directories, consider using the method `AllFiles(DirectoryPath string)`
+```go
+files, err := s.LocalStorage.Files("mydir")
+```
+
+####  AllFiles(DirectoryPath string) (files []FileInfo, err error)
+`AllFiles` returns a list of files in a given directory including files in sub directories, the file type in the list is LocalStorage.FileInfo NOT fs.LocalStorage
+```go
+files, err := s.LocalStorage.Files("mydir")
+```
+
+####  Directories(DirectoryPath string) (directoryPaths []string, err error)
+`Directories` returns a slice of string containing the paths of the directories, if you want the list of directories including subdirectories, consider using the method "AllDirectories(DirectoryPath string)", it returns an error incase any
+```go
+directories, err := s.LocalStorage.Directories("mydir")
+```
