@@ -42,8 +42,8 @@ type Disk interface {
 	Read(filePath string) ([]byte, error)
 	Files(DirectoryPath string) ([]localstorage.FileInfo, error)
 	AllFiles(DirectoryPath string) ([]localstorage.FileInfo, error)
-	Directories(DirectoryPath string) (directoryPaths []string, err error)
-	AllDirectories(DirectoryPath string) (directoryPaths []string, err error)
+	Directories(SubDirectoryPath string) (directoryPaths []string, err error)
+	AllDirectories(SubDirectoryPath string) (directoryPaths []string, err error)
 	MakeDirectory(DirectoryPath string, perm int) error
 	RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error)
 	DeleteDirectory(DirectoryPath string) (err error)

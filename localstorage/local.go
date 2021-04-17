@@ -45,7 +45,7 @@ func New(path string) *LocalStorage {
 	return local
 }
 
-// FileInfo returns information about the given file or an error incase there is
+//FileInfo returns information about the given file or an error incase there is any
 func (l *LocalStorage) FileInfo(filepath string) (fileinfo FileInfo, err error) {
 	fullpath := path.Join(l.rootFolder, filepath)
 	// make sure the file exists
@@ -71,9 +71,9 @@ func (l *LocalStorage) FileInfo(filepath string) (fileinfo FileInfo, err error) 
 	return fileinfo, nil
 }
 
-// Put files in the root directory from external locations,
-// filepath is the full path to the file you would like to put
-// it returns error incase there was
+// Put helps you copy files into the root directory
+// from external locations, filePath is the full path to the file
+// you would like to put, it returns error incase there is any
 func (l *LocalStorage) Put(filePath string) error {
 	// make sure the source file exists
 	s, err := os.Stat(filePath)
@@ -121,11 +121,11 @@ func (l *LocalStorage) Put(filePath string) error {
 	return err
 }
 
-// PutAs  puts files in the root directory from external directory with the given name in the second parameter
-// the first arg 'filepath' is the file path
-// the second arg 'filename' is the name of the new file
-// filepath is the full path to the file you would like to put
-// it returns error incase there was
+// PutAs helps you copy files into the root directory
+// from external directory,  the first param 'filePath' is the full
+// path to the file you would like to put,
+// the second param 'fileName' is the name you would
+// like to give to the file, it returns error incase there is any
 func (l *LocalStorage) PutAs(filePath string, filename string) error {
 	// make sure the source file exists
 	s, err := os.Stat(filePath)
@@ -173,11 +173,12 @@ func (l *LocalStorage) PutAs(filePath string, filename string) error {
 	return err
 }
 
-// Copy helps you copy files within the root folder
-// Please note that the refrence of the paths of these files is the root folder
-// it accepts the source file starting from the root folder
-// and the destination folder starting from the root folder
-// it returns an error incase there any
+// Copy helps you copy files within the root folder,
+// Please note that the refrence of the paths of these
+// files is the root folder, it accepts the source
+// file starting from the root folder,
+// and the destination folder starting from the root folder,
+// it returns an error incase there is any
 func (l *LocalStorage) Copy(filePath string, destPath string) error {
 	//unify slashes
 	filePath = filepath.ToSlash(filePath)
@@ -236,12 +237,12 @@ func (l *LocalStorage) Copy(filePath string, destPath string) error {
 	return err
 }
 
-// CopyAs helps you copy files within the root folder
-// Please note that the refrence of the paths of these files is the root folder
-// it accepts the source file starting from the root folder
-// and the destination folder starting from the root folder
-// and the new file name
-// it returns an error incase there any
+// CopyAs helps you copy files within the root folder,
+// Please note that the refrence of the paths of these
+// files is the root folder, it accepts the source file starting
+// from the root folder and the destination folder
+// starting from the root folder, and the new file name,
+// it returns an error incase there is any
 func (l *LocalStorage) CopyAs(filePath string, destfolder string, newFilePath string) error {
 	//unify slashes
 	filePath = filepath.ToSlash(filePath)
@@ -300,10 +301,11 @@ func (l *LocalStorage) CopyAs(filePath string, destfolder string, newFilePath st
 	return err
 }
 
-// Move helps you Move files within the root folder
-// Please note that the refrence of the paths of these files is the root folder
-// it accepts the source file starting from the root folder
-// and the destination folder starting from the root folder
+// Move helps you Move files within the root folder,
+// Please note that the refrence of the paths of these
+// files is the root folder, it accepts the source file
+// starting from the root folder, and the destination
+// folder starting from the root folder,
 // it returns an error incase there any
 func (l *LocalStorage) Move(filePath string, destFolder string) error {
 	//unify slashes
@@ -367,12 +369,12 @@ func (l *LocalStorage) Move(filePath string, destFolder string) error {
 	return err
 }
 
-// MoveAs helps you Move files within the root folder
-// Please note that the refrence of the paths of these files is the root folder
-// it accepts the source file starting from the root folder
-// and the destination folder starting from the root folder
-// and the new file name
-// it returns an error incase there any
+// MoveAs helps you Move files within the root folder,
+// Please note that the refrence of the paths of these files
+// is the root folder, it accepts the source
+// file starting from the root folder and the destination
+// folder starting from the root folder,
+// and the new file name, it returns an error incase there any
 func (l *LocalStorage) MoveAs(filePath string, destFolder string, newFilePath string) error {
 	//unify slashes
 	filePath = filepath.ToSlash(filePath)
@@ -435,7 +437,8 @@ func (l *LocalStorage) MoveAs(filePath string, destFolder string, newFilePath st
 	return err
 }
 
-// Rename renames a given file as first parameter to a new name passed as a second parameter
+// Rename renames the given file as first parameter to the name
+// given as a second parameter,
 // it returns error incase there is any
 func (l *LocalStorage) Rename(filePath string, newFilePath string) error {
 	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
@@ -455,8 +458,7 @@ func (l *LocalStorage) Rename(filePath string, newFilePath string) error {
 	return err
 }
 
-// Delete removes the given file
-// it returns error incase there is any
+// Delete deletes the given file it returns error incase there is any
 func (l *LocalStorage) Delete(filePath string) error {
 	srcFileFullPath := filepath.Join(l.rootFolder, filePath)
 
@@ -474,8 +476,8 @@ func (l *LocalStorage) Delete(filePath string) error {
 	return err
 }
 
-// DeleteMultiple removes multiple files given as slice of strings of file paths
-// it returns error incase there is any
+// DeleteMultiple deltes multiple files given as slice of strings
+// of file paths, it returns error incase there is any
 func (l *LocalStorage) DeleteMultiple(filePaths []string) (err error) {
 	for _, file := range filePaths {
 		srcFileFullPath := filepath.Join(l.rootFolder, file)
@@ -495,7 +497,7 @@ func (l *LocalStorage) DeleteMultiple(filePaths []string) (err error) {
 	return err
 }
 
-// Create helps you create new file and add content to it
+// Create helps you create new a file and add content to it,
 // it returns error incase there is any
 func (l *LocalStorage) Create(filePath string, content []byte) error {
 	// make sure the path of dest folder exists
@@ -522,7 +524,7 @@ func (l *LocalStorage) Create(filePath string, content []byte) error {
 	return err
 }
 
-// Append helps you append content to a file
+// Append helps you append content to a file,
 // it returns error incase there is any
 func (l *LocalStorage) Append(filePath string, content []byte) error {
 	fileFullPath := path.Join(l.rootFolder, filePath)
@@ -546,7 +548,7 @@ func (l *LocalStorage) Append(filePath string, content []byte) error {
 	return err
 }
 
-// Exists checks if a file exists withn the root folder
+// Exists checks if a file exists withn the root folder,
 // it returns a bool and an error incase any
 func (l *LocalStorage) Exists(filePath string) (bool, error) {
 	fileFullPath := path.Join(l.rootFolder, filePath)
@@ -561,7 +563,7 @@ func (l *LocalStorage) Exists(filePath string) (bool, error) {
 	return true, nil
 }
 
-// Missing checks if a file is missing in the root folder
+// Missing checks if a file is missing in the root folder,
 // it returns a bool and an error incase any
 func (l *LocalStorage) Missing(filePath string) (bool, error) {
 	fileFullPath := path.Join(l.rootFolder, filePath)
@@ -581,8 +583,9 @@ func (l *LocalStorage) Missing(filePath string) (bool, error) {
 	return false, nil
 }
 
-// Read helps you grap the content of a file
-// it returns the data in a slice of bytes and an error incase any
+// Read helps you grap the content of a file,
+// it returns the data in a slice of bytes and an error
+// incase there is any
 func (l *LocalStorage) Read(filePath string) ([]byte, error) {
 	fileFullPath := path.Join(l.rootFolder, filePath)
 
@@ -601,10 +604,12 @@ func (l *LocalStorage) Read(filePath string) ([]byte, error) {
 }
 
 // Files returns a list of files in a given directory,
-// the file type is LocalStorage.FileInfo  NOT fs.LocalStorage
-// and it returns an error incase any occured
-// if you want a list of files including the files in sub directories
-// consider using the method "AllFiles(DirectoryPath string)"
+// the file type is LocalStorage.FileInfo
+//  NOT the standard library fs.FileInfo,
+// and it returns an error incase any occured,
+// if you want a list of files including
+// the files in sub directories, consider using the method
+// `AllFiles(DirectoryPath string)`
 func (l *LocalStorage) Files(DirectoryPath string) (files []FileInfo, err error) {
 	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
 
@@ -627,8 +632,10 @@ func (l *LocalStorage) Files(DirectoryPath string) (files []FileInfo, err error)
 	return files, err
 }
 
-// AllFiles returns a list of files in a given directory including files in sub directories
-// the file type in the list is LocalStorage.FileInfo NOT fs.LocalStorage
+// AllFiles returns a list of files in the given directory
+// including files in sub directories,
+// the file type in the list is LocalStorage.FileInfo
+// NOT the standard library fs.FileInfo
 func (l *LocalStorage) AllFiles(DirectoryPath string) (files []FileInfo, err error) {
 	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
 
@@ -657,11 +664,12 @@ func (l *LocalStorage) AllFiles(DirectoryPath string) (files []FileInfo, err err
 	return files, err
 }
 
-// Directories returns a slice of string containing the paths of the directories
-// if you want the list of directories including subdirectories
-// consider using the method "AllDirectories(DirectoryPath string)"
-// it returns an error incase any
-func (l *LocalStorage) Directories(DirectoryPath string) (directoryPaths []string, err error) {
+// Directories returns a slice of string containing
+// the paths of the directories,
+// if you want the list of directories including subdirectories,
+// consider using the method "AllDirectories(DirectoryPath string)",
+// it returns an error incase is any
+func (l *LocalStorage) Directories(DirectoryPath string) (SubDirectoryPaths []string, err error) {
 	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
 
 	_, err = os.Stat(DirectoryFullPath)
@@ -676,17 +684,17 @@ func (l *LocalStorage) Directories(DirectoryPath string) (directoryPaths []strin
 			// assign the result var
 			p := path.Join(l.rootFolder, DirectoryPath, val.Name())
 			p = filepath.ToSlash(p)
-			directoryPaths = append(directoryPaths, p)
+			SubDirectoryPaths = append(SubDirectoryPaths, p)
 		}
 	}
 
-	return directoryPaths, err
+	return SubDirectoryPaths, err
 }
 
-// AllDirectories returns a list of directories including sub directories
-// it returns an error incase any
-func (l *LocalStorage) AllDirectories(DirectoryPath string) (directoryPaths []string, err error) {
-	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
+// AllDirectories returns a list of directories including
+// sub directories, it returns an error incase is any
+func (l *LocalStorage) AllDirectories(SubDirectoryPath string) (directoryPaths []string, err error) {
+	DirectoryFullPath := path.Join(l.rootFolder, SubDirectoryPath)
 
 	_, err = os.Stat(DirectoryFullPath)
 	if os.IsNotExist(err) {
@@ -711,18 +719,18 @@ func (l *LocalStorage) AllDirectories(DirectoryPath string) (directoryPaths []st
 	return directoryPaths, err
 }
 
-// MakeDirectory creates a new directory and the necessary parent directories
-// with the given permissions, permission could be (example: 0777) or any linux based permission
-// it returns an error incase any
+// MakeDirectory creates a new directory and the necessary
+// parent directories with the given permissions,
+// permissions could be (example: 0777) or any linux based permissions,
+// it returns an error incase is any
 func (l *LocalStorage) MakeDirectory(DirectoryPath string, perm int) (err error) {
 	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
 	err = os.MkdirAll(DirectoryFullPath, fs.FileMode(perm))
 	return err
 }
 
-// RenameDirectory changes the name of directory to new name
-// please note that it doesn't work for none empty directories
-// it returns an error incase any
+// RenameDirectory changes the name of directory to new name,
+// it returns an error incase there is any
 func (l *LocalStorage) RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error) {
 	DirectoryFullPath := path.Join(l.rootFolder, DirectoryPath)
 	NewDirectoryFullPath := path.Join(l.rootFolder, NewDirectoryPath)
