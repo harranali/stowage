@@ -32,7 +32,7 @@ fmt.Println(info.Extension) // the file extension
 err := s.LocalStorage.Copy("myfile.txt", "files/backup/txt")
 
 ```
-####  Root folder
+## Root folder
 The `rootFolder` acts as the reference for all operations, it has to be a full absolute path
 here is how you can get the absolute path for your root folder:
 ```go
@@ -40,7 +40,7 @@ here is how you can get the absolute path for your root folder:
 rootFolder, _ := filepath.Abs("./my-base-folder")
 ```
 
-#### Package initiation
+## Package initiation
 you need first to create the package variable with by calling the method New `s := stowage.New()`, next you need to initiate the storage engine by calling the method `s.InitLocalStorage(opts)` and pass to it the options, the code below shows how you can create the variable and initiate the storage engine
 ```go
 // first create the package variable 
@@ -54,7 +54,7 @@ s.InitLocalStorage(stowage.LocalStorageOpts{
 ```
 
 
-#### File information 
+## Getting File information 
 Here is how you can get information about a file such as name, extension, size, and more.
 ```go 
 rootFolder, _ := filepath.Abs("./my-base-folder")
@@ -71,7 +71,7 @@ fmt.Println(info.Extension) // the file extension
 fmt.Println(info.Size) // the file size 
 fmt.Println(info.Path) // the file full path
 ```
-#### Example operations
+## Example operations
 All file operations are performed with respect to the root directory
 ```go 
 rootFolder, _ := filepath.Abs("./my-base-folder")
@@ -101,7 +101,7 @@ s.LocalStorage.Rename(filePath string, newFilePath string) error
 ```
 
 
-#### All operations 
+## List of supported operations 
 Here is a list of all supported operations
 ```go
 FileInfo(filePath string) (fileinfo localstorage.FileInfo, err error)
@@ -128,11 +128,11 @@ RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error)
 DeleteDirectory(DirectoryPath string) (err error)
 ```
 
-#### docs
+## docs
 Here are the details of each operation
 
 ##### FileInfo(filePath string) (fileinfo localstorage.FileInfo, err error)
-`FileInfo` returns information about the given file or an error incase there is
+`FileInfo` returns information about the given file or an error incase there is any
 ```go
 info, _ := s.LocalStorage.FileInfo("testfile.txt")
 info.Name // the file name with extension
@@ -143,25 +143,25 @@ info.Path // the file full path
 ```
 
 #### Put(filePath string) error
-`Put` helps you copy files into the root directory from external locations, filepath is the full path to the file you would like to put, it returns error incase there any
+`Put` helps you copy files into the root directory from external locations, filePath is the full path to the file you would like to put, it returns error incase there is any
 ```go
 err := s.LocalStorage.Put("testfile.txt")
 ```
 
 ####  PutAs(filePath string, filename string) error
-`PutAs` helps you copy files into the root directory from external directory with the given name in the second parameter, the first param 'filePath' is the file path, the second param 'fileName' is the name of the new file, filepath is the full path to the file you would like to put, it returns error incase there was
+`PutAs` helps you copy files into the root directory from external directory,  the first param 'filePath' is the full path to the file you would like to put, the second param 'fileName' is the name you would like to give to the file, it returns error incase there is any
 ```go
 err := s.LocalStorage.PutAs("testfile.txt", "newtestfile.txt")
 ```
 
 #### Copy(filePath string, destPath string) error
-`Copy` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there any
+`Copy` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there is any
 ```go
 err := s.LocalStorage.Copy("testfile.txt", "/folder/subfolder")
 ```
 
 #### CopyAs(filePath string, destfolder string, newFilePath string) error
-`CopyAs` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there any
+`CopyAs` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there is any
 ```go
 err := s.LocalStorage.CopyAs("testfile.txt", "/folder/subfolder", "newtestfile.txt")
 ```
@@ -173,14 +173,13 @@ err := s.LocalStorage.Move("testfile.txt", "/folder/subfolder")
 ```
 
 ####  MoveAs(filePath string, destFolder string, newFilePath string) error
-`MoveAs` helps you Move files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name
-// it returns an error incase there any
+`MoveAs` helps you Move files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there any
 ```go
 err := s.LocalStorage.Move("testfile.txt", "/folder/subfolder", "newtestfile.txt")
 ```
 
 #### Rename(filePath string, newFilePath string) error
-`Rename` renames a given file as first parameter to a new name passed as a second parameter, it returns error incase there is any
+`Rename` renames the given file as first parameter to the name given as a second parameter, it returns error incase there is any
 ```go
 err := s.LocalStorage.Rename("testfile.txt",  "newtestfile.txt")
 ```
@@ -199,15 +198,15 @@ err := s.LocalStorage.DeleteMultiple(files)
 ```
 
 #### Create(filePath string, content []byte) error
-`Create` helps you create new file and add content to it, it returns error incase there is any
+`Create` helps you create new a file and add content to it, it returns error incase there is any
 ```go
-err := s.LocalStorage.Create("newfile.txt",[]byte("this is a sample text") )
+err := s.LocalStorage.Create("newfile.txt", []byte("this is a sample text"))
 ```
 
 #### Append(filePath string, content []byte) error
 `Append` helps you append content to a file, it returns error incase there is any
 ```go
-err := s.LocalStorage.Append("newfile.txt",[]byte("this is a sample text") )
+err := s.LocalStorage.Append("newfile.txt",[]byte("this is a sample text"))
 ```
 
 #### Exists(filePath string) (bool, error)
@@ -222,25 +221,51 @@ exists, err := s.LocalStorage.Exists("newfile.txt")
 missing, err := s.LocalStorage.Missing("newfile.txt")
 ```
 #### Read(filePath string) ([]byte, error)
-`Read` helps you grap the content of a file, it returns the data in a slice of bytes and an error incase any
+`Read` helps you grap the content of a file, it returns the data in a slice of bytes and an error incase there is any
 ```go
 content, err := s.LocalStorage.Read("newfile.txt")
 ```
 
 #### Files(DirectoryPath string) (files []FileInfo, err error)
-`Files` returns a list of files in a given directory, the file type is LocalStorage.FileInfo  NOT fs.LocalStorage, and it returns an error incase any occured, if you want a list of files including the files in sub directories, consider using the method `AllFiles(DirectoryPath string)`
+`Files` returns a list of files in a given directory, the file type is LocalStorage.FileInfo  NOT the standard library fs.FileInfo, and it returns an error incase any occured, if you want a list of files including the files in sub directories, consider using the method `AllFiles(DirectoryPath string)`
 ```go
 files, err := s.LocalStorage.Files("mydir")
 ```
 
 ####  AllFiles(DirectoryPath string) (files []FileInfo, err error)
-`AllFiles` returns a list of files in a given directory including files in sub directories, the file type in the list is LocalStorage.FileInfo NOT fs.LocalStorage
+`AllFiles` returns a list of files in the given directory including files in sub directories, the file type in the list is LocalStorage.FileInfo NOT the standard library fs.FileInfo
 ```go
 files, err := s.LocalStorage.Files("mydir")
 ```
 
 ####  Directories(DirectoryPath string) (directoryPaths []string, err error)
-`Directories` returns a slice of string containing the paths of the directories, if you want the list of directories including subdirectories, consider using the method "AllDirectories(DirectoryPath string)", it returns an error incase any
+`Directories` returns a slice of string containing the paths of the directories, if you want the list of directories including subdirectories, consider using the method "AllDirectories(DirectoryPath string)", it returns an error incase is any
 ```go
 directories, err := s.LocalStorage.Directories("mydir")
 ```
+
+#### AllDirectories(DirectoryPath string) (SubDirectoryPath []string, err error)
+`AllDirectories` returns a list of directories including sub directories, it returns an error incase is any
+```go
+directories, err := s.LocalStorage.AllDirectories("mydir")
+```
+
+#### MakeDirectory(DirectoryPath string, perm int) (err error)
+`MakeDirectory` creates a new directory and the necessary parent directories with the given permissions, permissions could be (example: 0777) or any linux based permissions, it returns an error incase is any
+```go
+err := s.LocalStorage.MakeDirectory("mydir")
+```
+
+#### RenameDirectory(DirectoryPath string, NewDirectoryPath string) (err error)
+`RenameDirectory` changes the name of directory to new name, it returns an error incase there is any
+```go
+err := s.LocalStorage.RenameDirectory("mydir",  "new-dir-name")
+```
+
+
+#### DeleteDirectory(DirectoryPath string) (err error)
+`DeleteDirectory` deletes the given directory
+```go
+err := s.LocalStorage.DeleteDirectory("mydir")
+```
+
