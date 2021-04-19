@@ -1,5 +1,5 @@
 # Stowage
-A Go package for working with files and directories
+A Go filesystem package for working with files and directories, it features a simple api with support for the common files and directories operations such as copy, move, list files, file exist check, and more.
 
 ![Build Status](https://github.com/harranali/stowage/actions/workflows/build-master.yml/badge.svg)
 ![Test Status](https://github.com/harranali/stowage/actions/workflows/test-master.yml/badge.svg)
