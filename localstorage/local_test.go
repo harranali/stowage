@@ -284,14 +284,20 @@ func TestRename(t *testing.T) {
 	// initiate the loal storage
 	l := New(root)
 
-	l.Rename("filetorename.md", "filetorename-newname.md")
-	_, err := os.Stat(path.Join(root, "filetorename-newname.md"))
+	err := l.Rename("filetorename.md", "filetorename-newname.md")
+	if err != nil {
+		t.Error("failed assert renaming file")
+	}
+	_, err = os.Stat(path.Join(root, "filetorename-newname.md"))
 	if err != nil {
 		t.Error("failed assert renaming file")
 	}
 
-	// rename back the file file
-	l.Rename("filetorename-newname.md", "filetorename.md")
+	// rename back the file
+	err = l.Rename("filetorename-newname.md", "filetorename.md")
+	if err != nil {
+		t.Error("failed rename back the  file")
+	}
 }
 
 func TestDelete(t *testing.T) {
