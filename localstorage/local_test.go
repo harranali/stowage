@@ -526,8 +526,8 @@ func TestRenameDirectory(t *testing.T) {
 	}
 
 	os.RemoveAll(dirPath)
-	l.MakeDirectory(filepath.Join(root, "dirtorename"), 0777)
-	l.Create(filepath.Join(root, "dirtorename/.gitkeep"), []byte(""))
+	l.MakeDirectory("dirtorename", 0777)
+	l.Create("dirtorename/.gitkeep", []byte(""))
 }
 
 func TestDeleteDirectory(t *testing.T) {
