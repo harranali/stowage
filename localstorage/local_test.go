@@ -225,12 +225,14 @@ func TestMoveAs(t *testing.T) {
 	// 1- test moving to same dir with the same name
 	err := l.MoveAs("filetomove.md", "/", "filetomove.md")
 	if err == nil {
-		t.Error("failed asserting error when moving file to same dir with the same name")
+		t.Error("error when moving file to same dir with the same name")
 	}
 
 	// 2- test moving to same dir with different name
-	l.MoveAs("filetomove.md", "/", "filetomovenew.md")
-
+	err = l.MoveAs("filetomove.md", "/", "filetomovenew.md")
+	if err != nil {
+		t.Error("failed asserting error when moving to same dir with different name")
+	}
 	// assert the source file
 	_, err = os.Stat(path.Join(root, "filetomove.md"))
 	if err == nil {
@@ -244,11 +246,15 @@ func TestMoveAs(t *testing.T) {
 	}
 
 	// rename file back to original name
-	l.MoveAs("filetomovenew.md", "/", "filetomove.md")
-
+	err = l.MoveAs("filetomovenew.md", "/", "filetomove.md")
+	if err != nil {
+		t.Error("failed assert rename file back to original name")
+	}
 	// 3- test moving to sub folder
-	l.MoveAs("filetomove.md", "/sub1/sub2", "filetomove.md")
-
+	err = l.MoveAs("filetomove.md", "/sub1/sub2", "filetomove.md")
+	if err != nil {
+		t.Error("failed assert  moving to sub folder")
+	}
 	// assert the source file
 	_, err = os.Stat(path.Join(root, "filetomove.md"))
 	if err == nil {
