@@ -267,9 +267,15 @@ func TestMoveAs(t *testing.T) {
 	}
 
 	// move the file back to original dir
-	l.MoveAs("sub1/sub2/filetomove.md", "/", "filetomove.md")
+	err = l.MoveAs("sub1/sub2/filetomove.md", "/", "filetomove.md")
+	if err != nil {
+		t.Error("failed move the file back to original dir")
+	}
 	// remove the sub dirs
-	os.RemoveAll(path.Join(root, "sub1"))
+	err = os.RemoveAll(path.Join(root, "sub1"))
+	if err != nil {
+		t.Error("failed remove the sub dirs")
+	}
 }
 
 func TestRename(t *testing.T) {
