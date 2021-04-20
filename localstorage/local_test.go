@@ -526,8 +526,8 @@ func TestRenameDirectory(t *testing.T) {
 	}
 
 	os.RemoveAll(dirPath)
-	l.MakeDirectory("dirtorename", 0777)
-	l.Create("dirtorename/.gitkeep", []byte(""))
+	l.MakeDirectory(filepath.Join(root, "dirtorename"), 0777)
+	l.Create(filepath.Join(root, "dirtorename/.gitkeep"), []byte(""))
 }
 
 func TestDeleteDirectory(t *testing.T) {
@@ -546,6 +546,6 @@ func TestDeleteDirectory(t *testing.T) {
 		t.Error("failed asserting delete directory")
 	}
 
-	l.MakeDirectory("dirtodelete", 0777)
-	l.Create("dirtodelete/.gitkeep", []byte(""))
+	l.MakeDirectory(path.Join(root, "dirtodelete"), 0777)
+	l.Create(path.Join(root, "dirtodelete/.gitkeep"), []byte(""))
 }
