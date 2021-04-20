@@ -123,6 +123,9 @@ func TestCopyAs(t *testing.T) {
 
 	//execute copy to the root
 	err := l.CopyAs("filetocopy.md", "/", "filetocopynew.md")
+	if err != nil {
+		t.Error("failed assert file copyAs. ", err)
+	}
 	//assert
 	_, err = os.Stat("testdata/root/filetocopynew.md")
 	if os.IsNotExist(err) {
@@ -179,7 +182,7 @@ func TestMove(t *testing.T) {
 	}
 
 	// move the file back
-	err = l.Move("/sub1/sub2/filetomove.md", "/")
+	l.Move("/sub1/sub2/filetomove.md", "/")
 	// delete the sub dirs
 	os.RemoveAll("/sub1")
 }
@@ -449,7 +452,7 @@ func TestMakeDirectory(t *testing.T) {
 	}
 
 	dirPath := path.Join(root, "dirToMake")
-	s, err := os.Stat(dirPath)
+	s, _ := os.Stat(dirPath)
 
 	if !s.IsDir() {
 		t.Error("failed asserting make directory")
@@ -469,7 +472,7 @@ func TestRenameDirectory(t *testing.T) {
 	}
 
 	dirPath := path.Join(root, "dirtorenamenew")
-	s, err := os.Stat(dirPath)
+	s, _ := os.Stat(dirPath)
 
 	if s != nil && !s.IsDir() {
 		t.Error("failed asserting rename directory")
@@ -491,7 +494,7 @@ func TestDeleteDirectory(t *testing.T) {
 	}
 
 	dirPath := path.Join(root, "dirtodelete")
-	s, err := os.Stat(dirPath)
+	s, _ := os.Stat(dirPath)
 	if s != nil {
 		t.Error("failed asserting delete directory")
 	}
