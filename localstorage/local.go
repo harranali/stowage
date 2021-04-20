@@ -17,7 +17,7 @@ import (
 	"unicode/utf8"
 )
 
-// Local local storage
+// LocalStorage local storage
 type LocalStorage struct {
 	rootFolder string
 }
@@ -574,10 +574,9 @@ func (l *LocalStorage) Missing(filePath string) (bool, error) {
 		if os.IsNotExist(err) {
 			// not exist error
 			return true, nil
-		} else {
-			// another errors
-			return false, err
 		}
+		// another errors
+		return false, err
 	}
 
 	return false, nil
