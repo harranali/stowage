@@ -131,7 +131,10 @@ func TestCopy(t *testing.T) {
 		t.Error("failed assert copy file. ", err)
 	}
 	// cleanup
-	os.RemoveAll("testdata/root/sub1")
+	err = os.RemoveAll("testdata/root/sub1")
+	if err != nil {
+		t.Error("failed assert copy. ", err)
+	}
 }
 
 func TestCopyAs(t *testing.T) {
