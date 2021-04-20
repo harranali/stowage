@@ -68,14 +68,20 @@ func TestPut(t *testing.T) {
 	l := New(root)
 
 	// execute Put
-	l.Put("./testdata/filetobeput.md")
+	err := l.Put("./testdata/filetobeput.md")
+	if err != nil {
+		t.Error("failed assert putting file. ", err)
+	}
 	// assert
-	_, err := os.Stat("testdata/root/filetobeput.md")
+	_, err = os.Stat("testdata/root/filetobeput.md")
 	if os.IsNotExist(err) {
 		t.Error("failed assert putting file. ", err)
 	}
 	//cleanup
-	os.Remove("testdata/root/filetobeput.md")
+	err = os.Remove("testdata/root/filetobeput.md")
+	if err != nil {
+		t.Error("failed assert putting file. ", err)
+	}
 }
 
 func TestPutAs(t *testing.T) {
@@ -84,14 +90,20 @@ func TestPutAs(t *testing.T) {
 	// initiate the loal storage
 	l := New(root)
 	//execute PutAs
-	l.PutAs("./testdata/filetobeput.md", "filetobeputnewname.md")
+	err := l.PutAs("./testdata/filetobeput.md", "filetobeputnewname.md")
+	if err != nil {
+		t.Error("failed assert putting file. ", err)
+	}
 	// assert
-	_, err := os.Stat("testdata/root/filetobeputnewname.md")
+	_, err = os.Stat("testdata/root/filetobeputnewname.md")
 	if os.IsNotExist(err) {
 		t.Error("failed assert putting file. ", err)
 	}
 	//cleanup
-	os.Remove("testdata/root/filetobeputnewname.md")
+	err = os.Remove("testdata/root/filetobeputnewname.md")
+	if err != nil {
+		t.Error("failed assert putting file. ", err)
+	}
 }
 
 func TestCopy(t *testing.T) {
