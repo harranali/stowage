@@ -605,7 +605,7 @@ func (l *LocalStorage) Read(filePath string) ([]byte, error) {
 // Files returns a list of files in a given directory,
 // the file type is LocalStorage.FileInfo
 //  NOT the standard library fs.FileInfo,
-// and it returns an error incase any occured,
+// and it returns an error incase any occurred,
 // if you want a list of files including
 // the files in sub directories, consider using the method
 // `AllFiles(DirectoryPath string)`

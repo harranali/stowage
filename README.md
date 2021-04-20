@@ -226,7 +226,7 @@ content, err := s.LocalStorage.Read("newfile.txt")
 ```
 
 #### Files(DirectoryPath string) (files []FileInfo, err error)
-`Files` returns a list of files in a given directory, the file type is LocalStorage.FileInfo  NOT the standard library fs.FileInfo, and it returns an error incase any occured, if you want a list of files including the files in sub directories, consider using the method `AllFiles(DirectoryPath string)`
+`Files` returns a list of files in a given directory, the file type is LocalStorage.FileInfo  NOT the standard library fs.FileInfo, and it returns an error incase any occurred, if you want a list of files including the files in sub directories, consider using the method `AllFiles(DirectoryPath string)`
 ```go
 files, err := s.LocalStorage.Files("mydir")
 ```
