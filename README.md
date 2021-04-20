@@ -2,7 +2,7 @@
 A Go filesystem package for working with files and directories, it features a simple api with support for the common files and directories operations such as copy, move, list files, file exist check, and more.
 
 ![Build Status](https://github.com/harranali/stowage/actions/workflows/build-master.yml/badge.svg) ![Test Status](https://github.com/harranali/stowage/actions/workflows/test-master.yml/badge.svg) [![GoDoc](https://godoc.org/github.com/harranali/stowage?status.svg)](https://godoc.org/github.com/harranali/stowage)
-[![reportcard](https://goreportcard.com/badge/harranali/stowage)](https://goreportcard.com/report/harranali/stowage)
+[![reportcard](https://goreportcard.com/badge/harranali/stowage)](https://goreportcard.com/report/harranali/stowage) [![codecov](https://codecov.io/gh/harranali/stowage/branch/master/graph/badge.svg?token=EHLAZVHY55)](https://codecov.io/gh/harranali/stowage)
 
 
 ## Install
