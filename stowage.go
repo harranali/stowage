@@ -13,18 +13,6 @@ type LocalStorageOpts struct {
 	RootFolder string
 }
 
-type s3Opts struct {
-	token string
-}
-
-type googleCloudStorageOpts struct {
-	token string
-}
-
-type oSSOpts struct {
-	Token string
-}
-
 // Disk interface defines all supported operations by local storage
 type Disk interface {
 	FileInfo(filePath string) (fileinfo localstorage.FileInfo, err error)
@@ -53,10 +41,7 @@ type Disk interface {
 
 // Stowage represents all supported storages
 type Stowage struct {
-	LocalStorage       Disk
-	s3                 Disk
-	googleCloudStorage Disk
-	oSS                Disk
+	LocalStorage Disk
 }
 
 var stowage *Stowage
@@ -71,16 +56,4 @@ func New() *Stowage {
 // InitLocalStorage initializes local storage
 func (s *Stowage) InitLocalStorage(opts LocalStorageOpts) {
 	s.LocalStorage = localstorage.New(opts.RootFolder)
-}
-
-// InitS3 initializes Amazon S3 storage
-func (s *Stowage) InitS3(opts s3Opts) {
-}
-
-// InitGoogleCloudStorage initializes google cloud storage
-func (s *Stowage) initGoogleCloudStorage(opts googleCloudStorageOpts) {
-}
-
-// InitOSS initializes Alicloud OSS
-func (s *Stowage) initOSS(opts oSSOpts) {
 }

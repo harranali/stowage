@@ -416,7 +416,7 @@ func TestRead(t *testing.T) {
 	// initiate the loal storage
 	l := New(root)
 
-	content, err := l.Read("filetoread.mod")
+	content, err := l.Read("filetoread.md")
 	if err != nil {
 		t.Error("failed assert reading file")
 	}
