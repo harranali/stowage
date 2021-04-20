@@ -31,7 +31,10 @@ func TestFileInfo(t *testing.T) {
 	// initiate the loal storage
 	l := New(root)
 	// execute file info
-	info, _ := l.FileInfo("filetotestinfo.md")
+	info, err := l.FileInfo("filetotestinfo.md")
+	if err != nil {
+		t.Error("failed asserting file info")
+	}
 
 	// start asserting
 	if info.Name != "filetotestinfo.md" {
@@ -51,6 +54,10 @@ func TestFileInfo(t *testing.T) {
 	}
 	if info.Size != 14 {
 		t.Error("failed asserting file info: Size")
+	}
+
+	if info.FsFileInfo.Name() != "filetotestinfo.md" {
+		t.Error("failed asserting file info: FsFileInfo.Name()")
 	}
 }
 
