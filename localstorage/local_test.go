@@ -167,7 +167,10 @@ func TestCopyAs(t *testing.T) {
 		t.Error("failed assert file copyAs. ", err)
 	}
 	// cleanup
-	os.RemoveAll("testdata/root/sub1")
+	err = os.RemoveAll("testdata/root/sub1")
+	if err != nil {
+		t.Error("failed assert file copyAs. ", err)
+	}
 }
 
 func TestMove(t *testing.T) {
@@ -175,8 +178,6 @@ func TestMove(t *testing.T) {
 	root, _ := filepath.Abs("./testdata/root")
 	// initiate the loal storage
 	l := New(root)
-
-	// Move(srcfile string, destfolder string) error
 
 	// test moving to same
 	err := l.Move("filetomove.md", "/")
@@ -204,9 +205,15 @@ func TestMove(t *testing.T) {
 	}
 
 	// move the file back
-	l.Move("/sub1/sub2/filetomove.md", "/")
+	err = l.Move("/sub1/sub2/filetomove.md", "/")
+	if err != nil {
+		t.Error("failed assert move file back ", err)
+	}
 	// delete the sub dirs
-	os.RemoveAll("/sub1")
+	err = os.RemoveAll("/sub1")
+	if err != nil {
+		t.Error("failed assert remove sub1 ", err)
+	}
 }
 
 func TestMoveAs(t *testing.T) {
