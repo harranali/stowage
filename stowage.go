@@ -8,6 +8,7 @@ import (
 	"github.com/harranali/stowage/localstorage"
 )
 
+// LocalStorageOpts options for initiating local storage
 type LocalStorageOpts struct {
 	RootFolder string
 }
@@ -24,6 +25,7 @@ type oSSOpts struct {
 	Token string
 }
 
+// Disk interface defines all supported operations by local storage
 type Disk interface {
 	FileInfo(filePath string) (fileinfo localstorage.FileInfo, err error)
 	Put(filePath string) error
@@ -49,6 +51,7 @@ type Disk interface {
 	DeleteDirectory(DirectoryPath string) (err error)
 }
 
+// Stowage represents all supported storages
 type Stowage struct {
 	LocalStorage       Disk
 	s3                 Disk
@@ -58,6 +61,7 @@ type Stowage struct {
 
 var stowage *Stowage
 
+// New initialize stowage
 func New() *Stowage {
 	stowage = &Stowage{}
 
