@@ -365,7 +365,7 @@ func (l *LocalStorage) Move(filePath string, destFolder string) error {
 
 	// remove the source file
 	srcFile.Close()
-	err = os.Remove(srcFileFullPath)
+	os.Remove(srcFileFullPath)
 	return err
 }
 
@@ -433,7 +433,7 @@ func (l *LocalStorage) MoveAs(filePath string, destFolder string, newFilePath st
 
 	// remove the source file
 	srcFile.Close()
-	err = os.Remove(srcFileFullPath)
+	os.Remove(srcFileFullPath)
 	return err
 }
 
@@ -471,7 +471,7 @@ func (l *LocalStorage) Delete(filePath string) error {
 		return errors.New("File is not in regular mode")
 	}
 
-	err = os.Remove(srcFileFullPath)
+	os.Remove(srcFileFullPath)
 
 	return err
 }
@@ -491,7 +491,7 @@ func (l *LocalStorage) DeleteMultiple(filePaths []string) (err error) {
 			continue
 		}
 
-		err = os.Remove(srcFileFullPath)
+		os.Remove(srcFileFullPath)
 	}
 
 	return err
