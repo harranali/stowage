@@ -174,7 +174,7 @@ func (l *LocalStorage) PutAs(filePath string, filename string) error {
 }
 
 // Copy helps you copy files within the root folder,
-// Please note that the refrence of the paths of these
+// Please note that the reference of the paths of these
 // files is the root folder, it accepts the source
 // file starting from the root folder,
 // and the destination folder starting from the root folder,
@@ -238,7 +238,7 @@ func (l *LocalStorage) Copy(filePath string, destPath string) error {
 }
 
 // CopyAs helps you copy files within the root folder,
-// Please note that the refrence of the paths of these
+// Please note that the reference of the paths of these
 // files is the root folder, it accepts the source file starting
 // from the root folder and the destination folder
 // starting from the root folder, and the new file name,
@@ -302,7 +302,7 @@ func (l *LocalStorage) CopyAs(filePath string, destfolder string, newFilePath st
 }
 
 // Move helps you Move files within the root folder,
-// Please note that the refrence of the paths of these
+// Please note that the  of the paths of these
 // files is the root folder, it accepts the source file
 // starting from the root folder, and the destination
 // folder starting from the root folder,
@@ -370,7 +370,7 @@ func (l *LocalStorage) Move(filePath string, destFolder string) error {
 }
 
 // MoveAs helps you Move files within the root folder,
-// Please note that the refrence of the paths of these files
+// Please note that the reference of the paths of these files
 // is the root folder, it accepts the source
 // file starting from the root folder and the destination
 // folder starting from the root folder,

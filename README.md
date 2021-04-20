@@ -154,25 +154,25 @@ err := s.LocalStorage.PutAs("testfile.txt", "newtestfile.txt")
 ```
 
 #### Copy(filePath string, destPath string) error
-`Copy` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there is any
+`Copy` helps you copy files within the root folder, Please note that the reference of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there is any
 ```go
 err := s.LocalStorage.Copy("testfile.txt", "/folder/subfolder")
 ```
 
 #### CopyAs(filePath string, destfolder string, newFilePath string) error
-`CopyAs` helps you copy files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there is any
+`CopyAs` helps you copy files within the root folder, Please note that the reference of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there is any
 ```go
 err := s.LocalStorage.CopyAs("testfile.txt", "/folder/subfolder", "newtestfile.txt")
 ```
 
 ####  Move(filePath string, destFolder string) error
-`Move` helps you Move files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there any
+`Move` helps you Move files within the root folder, Please note that the reference of the paths of these files is the root folder, it accepts the source file starting from the root folder, and the destination folder starting from the root folder, it returns an error incase there any
 ```go
 err := s.LocalStorage.Move("testfile.txt", "/folder/subfolder")
 ```
 
 ####  MoveAs(filePath string, destFolder string, newFilePath string) error
-`MoveAs` helps you Move files within the root folder, Please note that the refrence of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there any
+`MoveAs` helps you Move files within the root folder, Please note that the reference of the paths of these files is the root folder, it accepts the source file starting from the root folder and the destination folder starting from the root folder, and the new file name, it returns an error incase there any
 ```go
 err := s.LocalStorage.Move("testfile.txt", "/folder/subfolder", "newtestfile.txt")
 ```
