@@ -501,10 +501,9 @@ func (l *LocalStorage) DeleteMultiple(filePaths []string) (err error) {
 // it returns error incase there is any
 func (l *LocalStorage) Create(filePath string, content []byte) error {
 	// make sure the path of dest folder exists
-	os.MkdirAll(path.Dir(filePath), 0755)
-
 	fileFullPath := path.Join(l.rootFolder, filePath)
 	fileFullPath = filepath.ToSlash(fileFullPath)
+	os.MkdirAll(path.Dir(fileFullPath), 0755)
 
 	// check if the file exists
 	_, err := os.Stat(fileFullPath)
