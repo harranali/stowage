@@ -16,7 +16,7 @@ jobs:
         go mod download
     - name: Run Unit tests
       run: |
-        go test ./... -race -covermode atomic -coverprofile=covprofile ./...
+        go test -race -covermode atomic -coverprofile=covprofile ./...
     - name: Install goveralls
       env:
         GO111MODULE: off
