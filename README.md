@@ -42,7 +42,7 @@ rootFolder, _ := filepath.Abs("./my-base-folder")
 ```
 
 ## Package initiation
-you need first to create the package variable with by calling the method New `s := stowage.New()`, next you need to initiate the storage engine by calling the method `s.InitLocalStorage(opts)` and pass to it the options, the code below shows how you can create the variable and initiate the storage engine
+you need first to create the package variable by calling the method New `s := stowage.New()`, next you need to initiate the storage engine by calling the method `s.InitLocalStorage(opts)` and pass to it the options, the code below shows how you can create the variable and initiate the storage engine
 ```go
 // first create the package variable 
 s := stowage.New()
