@@ -221,20 +221,12 @@ func (l *LocalStorage) Copy(filePath string, destPath string) error {
 	defer destFile.Close()
 
 	// copy the file content
-	buf := make([]byte, 100)
-	for {
-		n, err := srcFile.Read(buf)
-		if err != nil && err != io.EOF {
-			return err
-		}
-		if n == 0 {
-			break
-		}
-		if _, err := destFile.Write(buf[:n]); err != nil {
-			return err
-		}
+	_, err = io.Copy(destFile, srcFile)
+	if err != nil {
+		return err
 	}
-	return err
+
+	return nil
 }
 
 // CopyAs helps you copy files within the root folder,
