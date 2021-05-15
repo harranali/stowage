@@ -7,6 +7,7 @@ package localstorage_test
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -505,7 +506,10 @@ func TestMakeDirectory(t *testing.T) {
 		t.Error("failed asserting make directory")
 	}
 
-	os.RemoveAll(dirPath)
+	err = os.RemoveAll(dirPath)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func TestRenameDirectory(t *testing.T) {
